@@ -25,10 +25,10 @@ if [[ -z $(git status --porcelain) ]]; then
 else
     echo "Changes are detected."
     # Add, commit, and push the changes
-    git add .
-    git commit -m "$COMMIT_NAME"
-    git pull --rebase origin main
-    git push origin HEAD
+    # git add .
+    # git commit -m "$COMMIT_NAME"
+    # git pull --rebase origin main
+    # git push origin HEAD
 
 fi
 

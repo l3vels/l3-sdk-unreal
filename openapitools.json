@@ -5,33 +5,7 @@
     "version": "6.5.0"
   },
   "generatorName": "cpp-ue4",
-  "generatorVersion": "4.3.1",
-  "templateVersion": "4.3.1",
   "invokerPackage": "com.l3vels",
   "apiPackage": "com.l3vels.client.api",
-  "modelPackage": "com.l3vels.client.model",
-  "packageName": "l3vels_sdk_cpp_ue4",
-  "packageVersion": "1.0.0",
-  "library": "cpprestsdk",
-  "cppRestSdkVersion": "2.10.16",
-  "additionalProperties": {
-    "useDateTimeOffset": "true",
-    "cppSupportDatetime": "boost",
-    "withHttpInfo": "false",
-    "withSharedLib": "false",
-    "namespaceName": "L3vels",
-    "includeModel": "true",
-    "includeApi": "true",
-    "includeApiTests": "false",
-    "includeModelTests": "false",
-    "hideGenerationTimestamp": "true",
-    "supportsES6": "true",
-    "optionalMethodArgument": "true",
-    "sortParamsByRequiredFlag": "true",
-    "codegenMode": "singleFile",
-    "generateModelBuilder": "true",
-    "generateApiBuilder": "true",
-    "generateModelTests": "false",
-    "generateApiTests": "false"
-  }
+  "modelPackage": "com.l3vels.client.model"
 }
