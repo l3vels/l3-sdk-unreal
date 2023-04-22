@@ -133,7 +133,7 @@ void OpenAPIGameApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceed
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-FHttpRequestPtr OpenAPIGameApi::ProjectControllerProjectById(const ProjectControllerProjectByIdRequest& Request, const FProjectControllerProjectByIdDelegate& Delegate /*= FProjectControllerProjectByIdDelegate()*/) const
+FHttpRequestPtr OpenAPIGameApi::GetGameById(const GetGameByIdRequest& Request, const FGetGameByIdDelegate& Delegate /*= FGetGameByIdDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -148,14 +148,14 @@ FHttpRequestPtr OpenAPIGameApi::ProjectControllerProjectById(const ProjectContro
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIGameApi::OnProjectControllerProjectByIdResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIGameApi::OnGetGameByIdResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIGameApi::OnProjectControllerProjectByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FProjectControllerProjectByIdDelegate Delegate) const
+void OpenAPIGameApi::OnGetGameByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameByIdDelegate Delegate) const
 {
-	ProjectControllerProjectByIdResponse Response;
+	GetGameByIdResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

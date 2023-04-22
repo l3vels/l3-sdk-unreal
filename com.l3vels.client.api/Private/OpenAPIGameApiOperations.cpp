@@ -23,7 +23,7 @@
 namespace OpenAPI
 {
 
-FString OpenAPIGameApi::ProjectControllerProjectByIdRequest::ComputePath() const
+FString OpenAPIGameApi::GetGameByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
 	{ TEXT("id"), ToStringFormatArg(Id) } };
@@ -33,7 +33,7 @@ FString OpenAPIGameApi::ProjectControllerProjectByIdRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIGameApi::ProjectControllerProjectByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIGameApi::GetGameByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -45,7 +45,7 @@ void OpenAPIGameApi::ProjectControllerProjectByIdRequest::SetupHttpRequest(const
 
 }
 
-void OpenAPIGameApi::ProjectControllerProjectByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIGameApi::GetGameByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -77,7 +77,7 @@ void OpenAPIGameApi::ProjectControllerProjectByIdResponse::SetHttpResponseCode(E
 	}
 }
 
-bool OpenAPIGameApi::ProjectControllerProjectByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIGameApi::GetGameByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return TryGetJsonValue(JsonValue, Content);
 }

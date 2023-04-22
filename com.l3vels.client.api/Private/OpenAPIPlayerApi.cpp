@@ -133,6 +133,114 @@ void OpenAPIPlayerApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucce
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
+FHttpRequestPtr OpenAPIPlayerApi::CountPlayersByGameId(const CountPlayersByGameIdRequest& Request, const FCountPlayersByGameIdDelegate& Delegate /*= FCountPlayersByGameIdDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnCountPlayersByGameIdResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIPlayerApi::OnCountPlayersByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCountPlayersByGameIdDelegate Delegate) const
+{
+	CountPlayersByGameIdResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
+FHttpRequestPtr OpenAPIPlayerApi::CreatePlayer(const CreatePlayerRequest& Request, const FCreatePlayerDelegate& Delegate /*= FCreatePlayerDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnCreatePlayerResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIPlayerApi::OnCreatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerDelegate Delegate) const
+{
+	CreatePlayerResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
+FHttpRequestPtr OpenAPIPlayerApi::GetPlayerById(const GetPlayerByIdRequest& Request, const FGetPlayerByIdDelegate& Delegate /*= FGetPlayerByIdDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnGetPlayerByIdResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIPlayerApi::OnGetPlayerByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerByIdDelegate Delegate) const
+{
+	GetPlayerByIdResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
+FHttpRequestPtr OpenAPIPlayerApi::GetPlayers(const GetPlayersRequest& Request, const FGetPlayersDelegate& Delegate /*= FGetPlayersDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnGetPlayersResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIPlayerApi::OnGetPlayersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayersDelegate Delegate) const
+{
+	GetPlayersResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
 FHttpRequestPtr OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetById(const PlayerAssetControllerPlayerAssetByIdRequest& Request, const FPlayerAssetControllerPlayerAssetByIdDelegate& Delegate /*= FPlayerAssetControllerPlayerAssetByIdDelegate()*/) const
 {
 	if (!IsValid())
@@ -187,7 +295,7 @@ void OpenAPIPlayerApi::OnPlayerAssetControllerPlayerAssetsResponse(FHttpRequestP
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIPlayerApi::PlayerControllerCreatePlayer(const PlayerControllerCreatePlayerRequest& Request, const FPlayerControllerCreatePlayerDelegate& Delegate /*= FPlayerControllerCreatePlayerDelegate()*/) const
+FHttpRequestPtr OpenAPIPlayerApi::UpdatePlayer(const UpdatePlayerRequest& Request, const FUpdatePlayerDelegate& Delegate /*= FUpdatePlayerDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -202,149 +310,14 @@ FHttpRequestPtr OpenAPIPlayerApi::PlayerControllerCreatePlayer(const PlayerContr
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerControllerCreatePlayerResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnUpdatePlayerResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPlayerApi::OnPlayerControllerCreatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerCreatePlayerDelegate Delegate) const
+void OpenAPIPlayerApi::OnUpdatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerDelegate Delegate) const
 {
-	PlayerControllerCreatePlayerResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
-}
-
-FHttpRequestPtr OpenAPIPlayerApi::PlayerControllerDeletePlayer(const PlayerControllerDeletePlayerRequest& Request, const FPlayerControllerDeletePlayerDelegate& Delegate /*= FPlayerControllerDeletePlayerDelegate()*/) const
-{
-	if (!IsValid())
-		return nullptr;
-
-	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
-	HttpRequest->SetURL(*(Url + Request.ComputePath()));
-
-	for(const auto& It : AdditionalHeaderParams)
-	{
-		HttpRequest->SetHeader(It.Key, It.Value);
-	}
-
-	Request.SetupHttpRequest(HttpRequest);
-
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerControllerDeletePlayerResponse, Delegate);
-	HttpRequest->ProcessRequest();
-	return HttpRequest;
-}
-
-void OpenAPIPlayerApi::OnPlayerControllerDeletePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerDeletePlayerDelegate Delegate) const
-{
-	PlayerControllerDeletePlayerResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
-}
-
-FHttpRequestPtr OpenAPIPlayerApi::PlayerControllerGetPlayers(const PlayerControllerGetPlayersRequest& Request, const FPlayerControllerGetPlayersDelegate& Delegate /*= FPlayerControllerGetPlayersDelegate()*/) const
-{
-	if (!IsValid())
-		return nullptr;
-
-	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
-	HttpRequest->SetURL(*(Url + Request.ComputePath()));
-
-	for(const auto& It : AdditionalHeaderParams)
-	{
-		HttpRequest->SetHeader(It.Key, It.Value);
-	}
-
-	Request.SetupHttpRequest(HttpRequest);
-
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerControllerGetPlayersResponse, Delegate);
-	HttpRequest->ProcessRequest();
-	return HttpRequest;
-}
-
-void OpenAPIPlayerApi::OnPlayerControllerGetPlayersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerGetPlayersDelegate Delegate) const
-{
-	PlayerControllerGetPlayersResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
-}
-
-FHttpRequestPtr OpenAPIPlayerApi::PlayerControllerPlayerById(const PlayerControllerPlayerByIdRequest& Request, const FPlayerControllerPlayerByIdDelegate& Delegate /*= FPlayerControllerPlayerByIdDelegate()*/) const
-{
-	if (!IsValid())
-		return nullptr;
-
-	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
-	HttpRequest->SetURL(*(Url + Request.ComputePath()));
-
-	for(const auto& It : AdditionalHeaderParams)
-	{
-		HttpRequest->SetHeader(It.Key, It.Value);
-	}
-
-	Request.SetupHttpRequest(HttpRequest);
-
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerControllerPlayerByIdResponse, Delegate);
-	HttpRequest->ProcessRequest();
-	return HttpRequest;
-}
-
-void OpenAPIPlayerApi::OnPlayerControllerPlayerByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerPlayerByIdDelegate Delegate) const
-{
-	PlayerControllerPlayerByIdResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
-}
-
-FHttpRequestPtr OpenAPIPlayerApi::PlayerControllerPlayersCountByGameId(const PlayerControllerPlayersCountByGameIdRequest& Request, const FPlayerControllerPlayersCountByGameIdDelegate& Delegate /*= FPlayerControllerPlayersCountByGameIdDelegate()*/) const
-{
-	if (!IsValid())
-		return nullptr;
-
-	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
-	HttpRequest->SetURL(*(Url + Request.ComputePath()));
-
-	for(const auto& It : AdditionalHeaderParams)
-	{
-		HttpRequest->SetHeader(It.Key, It.Value);
-	}
-
-	Request.SetupHttpRequest(HttpRequest);
-
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerControllerPlayersCountByGameIdResponse, Delegate);
-	HttpRequest->ProcessRequest();
-	return HttpRequest;
-}
-
-void OpenAPIPlayerApi::OnPlayerControllerPlayersCountByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerPlayersCountByGameIdDelegate Delegate) const
-{
-	PlayerControllerPlayersCountByGameIdResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
-}
-
-FHttpRequestPtr OpenAPIPlayerApi::PlayerControllerUpdatePlayer(const PlayerControllerUpdatePlayerRequest& Request, const FPlayerControllerUpdatePlayerDelegate& Delegate /*= FPlayerControllerUpdatePlayerDelegate()*/) const
-{
-	if (!IsValid())
-		return nullptr;
-
-	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
-	HttpRequest->SetURL(*(Url + Request.ComputePath()));
-
-	for(const auto& It : AdditionalHeaderParams)
-	{
-		HttpRequest->SetHeader(It.Key, It.Value);
-	}
-
-	Request.SetupHttpRequest(HttpRequest);
-
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerControllerUpdatePlayerResponse, Delegate);
-	HttpRequest->ProcessRequest();
-	return HttpRequest;
-}
-
-void OpenAPIPlayerApi::OnPlayerControllerUpdatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerUpdatePlayerDelegate Delegate) const
-{
-	PlayerControllerUpdatePlayerResponse Response;
+	UpdatePlayerResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

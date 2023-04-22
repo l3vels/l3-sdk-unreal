@@ -38,15 +38,15 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
-	class ProjectControllerProjectByIdRequest;
-	class ProjectControllerProjectByIdResponse;
+	class GetGameByIdRequest;
+	class GetGameByIdResponse;
 	
-    DECLARE_DELEGATE_OneParam(FProjectControllerProjectByIdDelegate, const ProjectControllerProjectByIdResponse&);
+    DECLARE_DELEGATE_OneParam(FGetGameByIdDelegate, const GetGameByIdResponse&);
     
-    FHttpRequestPtr ProjectControllerProjectById(const ProjectControllerProjectByIdRequest& Request, const FProjectControllerProjectByIdDelegate& Delegate = FProjectControllerProjectByIdDelegate()) const;
+    FHttpRequestPtr GetGameById(const GetGameByIdRequest& Request, const FGetGameByIdDelegate& Delegate = FGetGameByIdDelegate()) const;
     
 private:
-    void OnProjectControllerProjectByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FProjectControllerProjectByIdDelegate Delegate) const;
+    void OnGetGameByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameByIdDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;

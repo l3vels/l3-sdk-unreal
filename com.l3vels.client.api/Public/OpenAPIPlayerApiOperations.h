@@ -22,6 +22,125 @@
 namespace OpenAPI
 {
 
+/* Count players
+ *
+ * Count players in game. Example: count players in game Call of Duty.
+*/
+class OPENAPI_API OpenAPIPlayerApi::CountPlayersByGameIdRequest : public Request
+{
+public:
+    virtual ~CountPlayersByGameIdRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	FString Authorization;
+	/* Game Id */
+	FString ProjectId;
+};
+
+class OPENAPI_API OpenAPIPlayerApi::CountPlayersByGameIdResponse : public Response
+{
+public:
+    virtual ~CountPlayersByGameIdResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    double Content;
+};
+
+/* Create new player
+ *
+ * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
+*/
+class OPENAPI_API OpenAPIPlayerApi::CreatePlayerRequest : public Request
+{
+public:
+    virtual ~CreatePlayerRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	FString Authorization;
+	OpenAPICreatePlayerDto OpenAPICreatePlayerDto;
+};
+
+class OPENAPI_API OpenAPIPlayerApi::CreatePlayerResponse : public Response
+{
+public:
+    virtual ~CreatePlayerResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPIPlayer Content;
+};
+
+/* Retrieve player by ID
+ *
+ * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
+*/
+class OPENAPI_API OpenAPIPlayerApi::GetPlayerByIdRequest : public Request
+{
+public:
+    virtual ~GetPlayerByIdRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	FString Authorization;
+	/* Player ID that you created in your game/project. Example: Jack, George, etc. */
+	FString Id;
+	/* Game/project ID to find asset in. Example: Call of Duty, Fortnite, etc. */
+	FString ProjectId;
+};
+
+class OPENAPI_API OpenAPIPlayerApi::GetPlayerByIdResponse : public Response
+{
+public:
+    virtual ~GetPlayerByIdResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPIPlayer Content;
+};
+
+/* Retrieve players
+ *
+ * Retrieve a list of players that match the specified filter criteria. Developers can use this method to retrieve players by name, category, status, or other properties. Example: Retrieve players from game Call of Duty.
+*/
+class OPENAPI_API OpenAPIPlayerApi::GetPlayersRequest : public Request
+{
+public:
+    virtual ~GetPlayersRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	FString Authorization;
+	/* Game/project ID to find player in your game. Example: Fortnite, Minecraft, etc. */
+	FString ProjectId;
+	/* Player field to sort by. You can sort by name, created_on and etc. */
+	TOptional<FString> Sort;
+	/* Sort order (ASC for ascending or DESC for descending) */
+	TOptional<FString> Order;
+	/* Search player by name */
+	TOptional<FString> SearchText;
+	/* Number of players to return per page */
+	TOptional<double> Limit;
+	/* Page number */
+	TOptional<double> Page;
+};
+
+class OPENAPI_API OpenAPIPlayerApi::GetPlayersResponse : public Response
+{
+public:
+    virtual ~GetPlayersResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    TArray<OpenAPIPlayer> Content;
+};
+
 /* Retrieve player asset by ID
  *
  * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
@@ -88,158 +207,14 @@ public:
     TArray<OpenAPIPlayerAsset> Content;
 };
 
-/* Create new player
- *
- * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
-*/
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerCreatePlayerRequest : public Request
-{
-public:
-    virtual ~PlayerControllerCreatePlayerRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	OpenAPICreatePlayerDto OpenAPICreatePlayerDto;
-};
-
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerCreatePlayerResponse : public Response
-{
-public:
-    virtual ~PlayerControllerCreatePlayerResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    OpenAPIPlayer Content;
-};
-
-/* Delete a Player
- *
- * This API method allows developers to delete a Player by providing the ID of the Player. Once deleted, the Player and all associated assets will be removed from the system.
-*/
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerDeletePlayerRequest : public Request
-{
-public:
-    virtual ~PlayerControllerDeletePlayerRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-};
-
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerDeletePlayerResponse : public Response
-{
-public:
-    virtual ~PlayerControllerDeletePlayerResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    
-};
-
-/* Retrieve players
- *
- * Retrieve a list of players that match the specified filter criteria. Developers can use this method to retrieve players by name, category, status, or other properties. Example: Retrieve players from game Call of Duty.
-*/
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerGetPlayersRequest : public Request
-{
-public:
-    virtual ~PlayerControllerGetPlayersRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	/* Game/project ID to find player in your game. Example: Fortnite, Minecraft, etc. */
-	FString ProjectId;
-	/* Player field to sort by. You can sort by name, created_on and etc. */
-	TOptional<FString> Sort;
-	/* Sort order (ASC for ascending or DESC for descending) */
-	TOptional<FString> Order;
-	/* Search player by name */
-	TOptional<FString> SearchText;
-	/* Number of players to return per page */
-	TOptional<double> Limit;
-	/* Page number */
-	TOptional<double> Page;
-};
-
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerGetPlayersResponse : public Response
-{
-public:
-    virtual ~PlayerControllerGetPlayersResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    TArray<OpenAPIPlayer> Content;
-};
-
-/* Retrieve player by ID
- *
- * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
-*/
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerPlayerByIdRequest : public Request
-{
-public:
-    virtual ~PlayerControllerPlayerByIdRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	/* Player ID that you created in your game/project. Example: Jack, George, etc. */
-	FString Id;
-	/* Game/project ID to find asset in. Example: Call of Duty, Fortnite, etc. */
-	FString ProjectId;
-};
-
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerPlayerByIdResponse : public Response
-{
-public:
-    virtual ~PlayerControllerPlayerByIdResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    OpenAPIPlayer Content;
-};
-
-/* Count players
- *
- * Count players in game. Example: count players in game Call of Duty.
-*/
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerPlayersCountByGameIdRequest : public Request
-{
-public:
-    virtual ~PlayerControllerPlayersCountByGameIdRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	/* Game Id */
-	FString ProjectId;
-};
-
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerPlayersCountByGameIdResponse : public Response
-{
-public:
-    virtual ~PlayerControllerPlayersCountByGameIdResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    double Content;
-};
-
 /* Update an existing Player
  *
  * This API method allows developers to update an existing Player by providing the ID of the Player and the updated properties and associated assets.
 */
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerUpdatePlayerRequest : public Request
+class OPENAPI_API OpenAPIPlayerApi::UpdatePlayerRequest : public Request
 {
 public:
-    virtual ~PlayerControllerUpdatePlayerRequest() {}
+    virtual ~UpdatePlayerRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
@@ -247,10 +222,10 @@ public:
 	FString Authorization;
 };
 
-class OPENAPI_API OpenAPIPlayerApi::PlayerControllerUpdatePlayerResponse : public Response
+class OPENAPI_API OpenAPIPlayerApi::UpdatePlayerResponse : public Response
 {
 public:
-    virtual ~PlayerControllerUpdatePlayerResponse() {}
+    virtual ~UpdatePlayerResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 

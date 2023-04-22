@@ -38,50 +38,45 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
+	class CountPlayersByGameIdRequest;
+	class CountPlayersByGameIdResponse;
+	class CreatePlayerRequest;
+	class CreatePlayerResponse;
+	class GetPlayerByIdRequest;
+	class GetPlayerByIdResponse;
+	class GetPlayersRequest;
+	class GetPlayersResponse;
 	class PlayerAssetControllerPlayerAssetByIdRequest;
 	class PlayerAssetControllerPlayerAssetByIdResponse;
 	class PlayerAssetControllerPlayerAssetsRequest;
 	class PlayerAssetControllerPlayerAssetsResponse;
-	class PlayerControllerCreatePlayerRequest;
-	class PlayerControllerCreatePlayerResponse;
-	class PlayerControllerDeletePlayerRequest;
-	class PlayerControllerDeletePlayerResponse;
-	class PlayerControllerGetPlayersRequest;
-	class PlayerControllerGetPlayersResponse;
-	class PlayerControllerPlayerByIdRequest;
-	class PlayerControllerPlayerByIdResponse;
-	class PlayerControllerPlayersCountByGameIdRequest;
-	class PlayerControllerPlayersCountByGameIdResponse;
-	class PlayerControllerUpdatePlayerRequest;
-	class PlayerControllerUpdatePlayerResponse;
+	class UpdatePlayerRequest;
+	class UpdatePlayerResponse;
 	
+    DECLARE_DELEGATE_OneParam(FCountPlayersByGameIdDelegate, const CountPlayersByGameIdResponse&);
+    DECLARE_DELEGATE_OneParam(FCreatePlayerDelegate, const CreatePlayerResponse&);
+    DECLARE_DELEGATE_OneParam(FGetPlayerByIdDelegate, const GetPlayerByIdResponse&);
+    DECLARE_DELEGATE_OneParam(FGetPlayersDelegate, const GetPlayersResponse&);
     DECLARE_DELEGATE_OneParam(FPlayerAssetControllerPlayerAssetByIdDelegate, const PlayerAssetControllerPlayerAssetByIdResponse&);
     DECLARE_DELEGATE_OneParam(FPlayerAssetControllerPlayerAssetsDelegate, const PlayerAssetControllerPlayerAssetsResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerControllerCreatePlayerDelegate, const PlayerControllerCreatePlayerResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerControllerDeletePlayerDelegate, const PlayerControllerDeletePlayerResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerControllerGetPlayersDelegate, const PlayerControllerGetPlayersResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerControllerPlayerByIdDelegate, const PlayerControllerPlayerByIdResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerControllerPlayersCountByGameIdDelegate, const PlayerControllerPlayersCountByGameIdResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerControllerUpdatePlayerDelegate, const PlayerControllerUpdatePlayerResponse&);
+    DECLARE_DELEGATE_OneParam(FUpdatePlayerDelegate, const UpdatePlayerResponse&);
     
+    FHttpRequestPtr CountPlayersByGameId(const CountPlayersByGameIdRequest& Request, const FCountPlayersByGameIdDelegate& Delegate = FCountPlayersByGameIdDelegate()) const;
+    FHttpRequestPtr CreatePlayer(const CreatePlayerRequest& Request, const FCreatePlayerDelegate& Delegate = FCreatePlayerDelegate()) const;
+    FHttpRequestPtr GetPlayerById(const GetPlayerByIdRequest& Request, const FGetPlayerByIdDelegate& Delegate = FGetPlayerByIdDelegate()) const;
+    FHttpRequestPtr GetPlayers(const GetPlayersRequest& Request, const FGetPlayersDelegate& Delegate = FGetPlayersDelegate()) const;
     FHttpRequestPtr PlayerAssetControllerPlayerAssetById(const PlayerAssetControllerPlayerAssetByIdRequest& Request, const FPlayerAssetControllerPlayerAssetByIdDelegate& Delegate = FPlayerAssetControllerPlayerAssetByIdDelegate()) const;
     FHttpRequestPtr PlayerAssetControllerPlayerAssets(const PlayerAssetControllerPlayerAssetsRequest& Request, const FPlayerAssetControllerPlayerAssetsDelegate& Delegate = FPlayerAssetControllerPlayerAssetsDelegate()) const;
-    FHttpRequestPtr PlayerControllerCreatePlayer(const PlayerControllerCreatePlayerRequest& Request, const FPlayerControllerCreatePlayerDelegate& Delegate = FPlayerControllerCreatePlayerDelegate()) const;
-    FHttpRequestPtr PlayerControllerDeletePlayer(const PlayerControllerDeletePlayerRequest& Request, const FPlayerControllerDeletePlayerDelegate& Delegate = FPlayerControllerDeletePlayerDelegate()) const;
-    FHttpRequestPtr PlayerControllerGetPlayers(const PlayerControllerGetPlayersRequest& Request, const FPlayerControllerGetPlayersDelegate& Delegate = FPlayerControllerGetPlayersDelegate()) const;
-    FHttpRequestPtr PlayerControllerPlayerById(const PlayerControllerPlayerByIdRequest& Request, const FPlayerControllerPlayerByIdDelegate& Delegate = FPlayerControllerPlayerByIdDelegate()) const;
-    FHttpRequestPtr PlayerControllerPlayersCountByGameId(const PlayerControllerPlayersCountByGameIdRequest& Request, const FPlayerControllerPlayersCountByGameIdDelegate& Delegate = FPlayerControllerPlayersCountByGameIdDelegate()) const;
-    FHttpRequestPtr PlayerControllerUpdatePlayer(const PlayerControllerUpdatePlayerRequest& Request, const FPlayerControllerUpdatePlayerDelegate& Delegate = FPlayerControllerUpdatePlayerDelegate()) const;
+    FHttpRequestPtr UpdatePlayer(const UpdatePlayerRequest& Request, const FUpdatePlayerDelegate& Delegate = FUpdatePlayerDelegate()) const;
     
 private:
+    void OnCountPlayersByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCountPlayersByGameIdDelegate Delegate) const;
+    void OnCreatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerDelegate Delegate) const;
+    void OnGetPlayerByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerByIdDelegate Delegate) const;
+    void OnGetPlayersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayersDelegate Delegate) const;
     void OnPlayerAssetControllerPlayerAssetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetControllerPlayerAssetByIdDelegate Delegate) const;
     void OnPlayerAssetControllerPlayerAssetsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetControllerPlayerAssetsDelegate Delegate) const;
-    void OnPlayerControllerCreatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerCreatePlayerDelegate Delegate) const;
-    void OnPlayerControllerDeletePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerDeletePlayerDelegate Delegate) const;
-    void OnPlayerControllerGetPlayersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerGetPlayersDelegate Delegate) const;
-    void OnPlayerControllerPlayerByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerPlayerByIdDelegate Delegate) const;
-    void OnPlayerControllerPlayersCountByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerPlayersCountByGameIdDelegate Delegate) const;
-    void OnPlayerControllerUpdatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerControllerUpdatePlayerDelegate Delegate) const;
+    void OnUpdatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;

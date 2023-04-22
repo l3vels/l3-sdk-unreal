@@ -24,10 +24,10 @@ namespace OpenAPI
  *
  * Get game/project by ID created on the platform.
 */
-class OPENAPI_API OpenAPIGameApi::ProjectControllerProjectByIdRequest : public Request
+class OPENAPI_API OpenAPIGameApi::GetGameByIdRequest : public Request
 {
 public:
-    virtual ~ProjectControllerProjectByIdRequest() {}
+    virtual ~GetGameByIdRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
@@ -37,10 +37,10 @@ public:
 	FString Id;
 };
 
-class OPENAPI_API OpenAPIGameApi::ProjectControllerProjectByIdResponse : public Response
+class OPENAPI_API OpenAPIGameApi::GetGameByIdResponse : public Response
 {
 public:
-    virtual ~ProjectControllerProjectByIdResponse() {}
+    virtual ~GetGameByIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 

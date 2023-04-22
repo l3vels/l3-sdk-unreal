@@ -23,6 +23,285 @@
 namespace OpenAPI
 {
 
+FString OpenAPIPlayerApi::CountPlayersByGameIdRequest::ComputePath() const
+{
+	TMap<FString, FStringFormatArg> PathParams = { 
+	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+
+	FString Path = FString::Format(TEXT("/v1/player/count/{project_id}"), PathParams);
+
+	return Path;
+}
+
+void OpenAPIPlayerApi::CountPlayersByGameIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+}
+
+void OpenAPIPlayerApi::CountPlayersByGameIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The players has been found."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIPlayerApi::CountPlayersByGameIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
+FString OpenAPIPlayerApi::CreatePlayerRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/player"));
+	return Path;
+}
+
+void OpenAPIPlayerApi::CreatePlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = { TEXT("application/json") };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("POST"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+		// Body parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+
+		WriteJsonValue(Writer, OpenAPICreatePlayerDto);
+		Writer->Close();
+
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerDto) was ignored, not supported in multipart form"));
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerDto) was ignored, not supported in urlencoded requests"));
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIPlayerApi::CreatePlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The players has successfully created."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIPlayerApi::CreatePlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
+FString OpenAPIPlayerApi::GetPlayerByIdRequest::ComputePath() const
+{
+	TMap<FString, FStringFormatArg> PathParams = { 
+	{ TEXT("id"), ToStringFormatArg(Id) },
+	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+
+	FString Path = FString::Format(TEXT("/v1/player/{project_id}/{id}"), PathParams);
+
+	return Path;
+}
+
+void OpenAPIPlayerApi::GetPlayerByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+}
+
+void OpenAPIPlayerApi::GetPlayerByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The player has been found."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIPlayerApi::GetPlayerByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
+FString OpenAPIPlayerApi::GetPlayersRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/player"));
+	TArray<FString> QueryParams;
+	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	if(Sort.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("sort=")) + ToUrlString(Sort.GetValue()));
+	}
+	if(Order.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("order=")) + ToUrlString(Order.GetValue()));
+	}
+	if(SearchText.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("search_text=")) + ToUrlString(SearchText.GetValue()));
+	}
+	if(Limit.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("limit=")) + ToUrlString(Limit.GetValue()));
+	}
+	if(Page.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("page=")) + ToUrlString(Page.GetValue()));
+	}
+	Path += TCHAR('?');
+	Path += FString::Join(QueryParams, TEXT("&"));
+
+	return Path;
+}
+
+void OpenAPIPlayerApi::GetPlayersRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+}
+
+void OpenAPIPlayerApi::GetPlayersResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The players has been found"));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIPlayerApi::GetPlayersResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
 FString OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
@@ -167,347 +446,13 @@ bool OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsResponse::FromJson(const
 	return TryGetJsonValue(JsonValue, Content);
 }
 
-FString OpenAPIPlayerApi::PlayerControllerCreatePlayerRequest::ComputePath() const
+FString OpenAPIPlayerApi::UpdatePlayerRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/player"));
 	return Path;
 }
 
-void OpenAPIPlayerApi::PlayerControllerCreatePlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = { TEXT("application/json") };
-	//static const TArray<FString> Produces = { TEXT("application/json") };
-
-	HttpRequest->SetVerb(TEXT("POST"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
-
-		WriteJsonValue(Writer, OpenAPICreatePlayerDto);
-		Writer->Close();
-
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerDto) was ignored, not supported in multipart form"));
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerDto) was ignored, not supported in urlencoded requests"));
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
-}
-
-void OpenAPIPlayerApi::PlayerControllerCreatePlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("The players has successfully created."));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIPlayerApi::PlayerControllerCreatePlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return TryGetJsonValue(JsonValue, Content);
-}
-
-FString OpenAPIPlayerApi::PlayerControllerDeletePlayerRequest::ComputePath() const
-{
-	FString Path(TEXT("/v1/player"));
-	return Path;
-}
-
-void OpenAPIPlayerApi::PlayerControllerDeletePlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = {  };
-	//static const TArray<FString> Produces = {  };
-
-	HttpRequest->SetVerb(TEXT("DELETE"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-}
-
-void OpenAPIPlayerApi::PlayerControllerDeletePlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("The players has successful deleted."));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIPlayerApi::PlayerControllerDeletePlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return true;
-}
-
-FString OpenAPIPlayerApi::PlayerControllerGetPlayersRequest::ComputePath() const
-{
-	FString Path(TEXT("/v1/player"));
-	TArray<FString> QueryParams;
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
-	if(Sort.IsSet())
-	{
-		QueryParams.Add(FString(TEXT("sort=")) + ToUrlString(Sort.GetValue()));
-	}
-	if(Order.IsSet())
-	{
-		QueryParams.Add(FString(TEXT("order=")) + ToUrlString(Order.GetValue()));
-	}
-	if(SearchText.IsSet())
-	{
-		QueryParams.Add(FString(TEXT("search_text=")) + ToUrlString(SearchText.GetValue()));
-	}
-	if(Limit.IsSet())
-	{
-		QueryParams.Add(FString(TEXT("limit=")) + ToUrlString(Limit.GetValue()));
-	}
-	if(Page.IsSet())
-	{
-		QueryParams.Add(FString(TEXT("page=")) + ToUrlString(Page.GetValue()));
-	}
-	Path += TCHAR('?');
-	Path += FString::Join(QueryParams, TEXT("&"));
-
-	return Path;
-}
-
-void OpenAPIPlayerApi::PlayerControllerGetPlayersRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = {  };
-	//static const TArray<FString> Produces = { TEXT("application/json") };
-
-	HttpRequest->SetVerb(TEXT("GET"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-}
-
-void OpenAPIPlayerApi::PlayerControllerGetPlayersResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("The players has been found"));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIPlayerApi::PlayerControllerGetPlayersResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return TryGetJsonValue(JsonValue, Content);
-}
-
-FString OpenAPIPlayerApi::PlayerControllerPlayerByIdRequest::ComputePath() const
-{
-	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("id"), ToStringFormatArg(Id) },
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
-
-	FString Path = FString::Format(TEXT("/v1/player/{project_id}/{id}"), PathParams);
-
-	return Path;
-}
-
-void OpenAPIPlayerApi::PlayerControllerPlayerByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = {  };
-	//static const TArray<FString> Produces = { TEXT("application/json") };
-
-	HttpRequest->SetVerb(TEXT("GET"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-}
-
-void OpenAPIPlayerApi::PlayerControllerPlayerByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("The player has been found."));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIPlayerApi::PlayerControllerPlayerByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return TryGetJsonValue(JsonValue, Content);
-}
-
-FString OpenAPIPlayerApi::PlayerControllerPlayersCountByGameIdRequest::ComputePath() const
-{
-	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
-
-	FString Path = FString::Format(TEXT("/v1/player/count/{project_id}"), PathParams);
-
-	return Path;
-}
-
-void OpenAPIPlayerApi::PlayerControllerPlayersCountByGameIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = {  };
-	//static const TArray<FString> Produces = { TEXT("application/json") };
-
-	HttpRequest->SetVerb(TEXT("GET"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-}
-
-void OpenAPIPlayerApi::PlayerControllerPlayersCountByGameIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("The players has been found."));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIPlayerApi::PlayerControllerPlayersCountByGameIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return TryGetJsonValue(JsonValue, Content);
-}
-
-FString OpenAPIPlayerApi::PlayerControllerUpdatePlayerRequest::ComputePath() const
-{
-	FString Path(TEXT("/v1/player"));
-	return Path;
-}
-
-void OpenAPIPlayerApi::PlayerControllerUpdatePlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIPlayerApi::UpdatePlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -541,7 +486,7 @@ void OpenAPIPlayerApi::PlayerControllerUpdatePlayerRequest::SetupHttpRequest(con
 	}
 }
 
-void OpenAPIPlayerApi::PlayerControllerUpdatePlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIPlayerApi::UpdatePlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -573,7 +518,7 @@ void OpenAPIPlayerApi::PlayerControllerUpdatePlayerResponse::SetHttpResponseCode
 	}
 }
 
-bool OpenAPIPlayerApi::PlayerControllerUpdatePlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIPlayerApi::UpdatePlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return TryGetJsonValue(JsonValue, Content);
 }
