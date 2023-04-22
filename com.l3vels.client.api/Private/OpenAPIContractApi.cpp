@@ -133,7 +133,7 @@ void OpenAPIContractApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSuc
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-FHttpRequestPtr OpenAPIContractApi::ContractControllerCollectionSize(const ContractControllerCollectionSizeRequest& Request, const FContractControllerCollectionSizeDelegate& Delegate /*= FContractControllerCollectionSizeDelegate()*/) const
+FHttpRequestPtr OpenAPIContractApi::CountContractsByGameId(const CountContractsByGameIdRequest& Request, const FCountContractsByGameIdDelegate& Delegate /*= FCountContractsByGameIdDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -148,19 +148,19 @@ FHttpRequestPtr OpenAPIContractApi::ContractControllerCollectionSize(const Contr
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnContractControllerCollectionSizeResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnCountContractsByGameIdResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIContractApi::OnContractControllerCollectionSizeResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerCollectionSizeDelegate Delegate) const
+void OpenAPIContractApi::OnCountContractsByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCountContractsByGameIdDelegate Delegate) const
 {
-	ContractControllerCollectionSizeResponse Response;
+	CountContractsByGameIdResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIContractApi::ContractControllerContractUri(const ContractControllerContractUriRequest& Request, const FContractControllerContractUriDelegate& Delegate /*= FContractControllerContractUriDelegate()*/) const
+FHttpRequestPtr OpenAPIContractApi::GetContractURI(const GetContractURIRequest& Request, const FGetContractURIDelegate& Delegate /*= FGetContractURIDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -175,19 +175,19 @@ FHttpRequestPtr OpenAPIContractApi::ContractControllerContractUri(const Contract
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnContractControllerContractUriResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnGetContractURIResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIContractApi::OnContractControllerContractUriResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerContractUriDelegate Delegate) const
+void OpenAPIContractApi::OnGetContractURIResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContractURIDelegate Delegate) const
 {
-	ContractControllerContractUriResponse Response;
+	GetContractURIResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIContractApi::ContractControllerSetContractUri(const ContractControllerSetContractUriRequest& Request, const FContractControllerSetContractUriDelegate& Delegate /*= FContractControllerSetContractUriDelegate()*/) const
+FHttpRequestPtr OpenAPIContractApi::SetContractURI(const SetContractURIRequest& Request, const FSetContractURIDelegate& Delegate /*= FSetContractURIDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -202,19 +202,19 @@ FHttpRequestPtr OpenAPIContractApi::ContractControllerSetContractUri(const Contr
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnContractControllerSetContractUriResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnSetContractURIResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIContractApi::OnContractControllerSetContractUriResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerSetContractUriDelegate Delegate) const
+void OpenAPIContractApi::OnSetContractURIResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetContractURIDelegate Delegate) const
 {
-	ContractControllerSetContractUriResponse Response;
+	SetContractURIResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIContractApi::ContractControllerSetSaleStatus(const ContractControllerSetSaleStatusRequest& Request, const FContractControllerSetSaleStatusDelegate& Delegate /*= FContractControllerSetSaleStatusDelegate()*/) const
+FHttpRequestPtr OpenAPIContractApi::UpdateSaleStatus(const UpdateSaleStatusRequest& Request, const FUpdateSaleStatusDelegate& Delegate /*= FUpdateSaleStatusDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -229,14 +229,14 @@ FHttpRequestPtr OpenAPIContractApi::ContractControllerSetSaleStatus(const Contra
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnContractControllerSetSaleStatusResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIContractApi::OnUpdateSaleStatusResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIContractApi::OnContractControllerSetSaleStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerSetSaleStatusDelegate Delegate) const
+void OpenAPIContractApi::OnUpdateSaleStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateSaleStatusDelegate Delegate) const
 {
-	ContractControllerSetSaleStatusResponse Response;
+	UpdateSaleStatusResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

@@ -23,13 +23,13 @@
 namespace OpenAPI
 {
 
-FString OpenAPIMintApi::MintControllerAirdropRequest::ComputePath() const
+FString OpenAPIMintApi::AirdropAssetToPlayerRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/mint/airdrop"));
 	return Path;
 }
 
-void OpenAPIMintApi::MintControllerAirdropRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIMintApi::AirdropAssetToPlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json") };
 	//static const TArray<FString> Produces = {  };
@@ -46,7 +46,7 @@ void OpenAPIMintApi::MintControllerAirdropRequest::SetupHttpRequest(const FHttpR
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		WriteJsonValue(Writer, OpenAPIMintDto);
+		WriteJsonValue(Writer, OpenAPIMintInput);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -54,11 +54,11 @@ void OpenAPIMintApi::MintControllerAirdropRequest::SetupHttpRequest(const FHttpR
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in multipart form"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in multipart form"));
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in urlencoded requests"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in urlencoded requests"));
 	}
 	else
 	{
@@ -66,7 +66,7 @@ void OpenAPIMintApi::MintControllerAirdropRequest::SetupHttpRequest(const FHttpR
 	}
 }
 
-void OpenAPIMintApi::MintControllerAirdropResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIMintApi::AirdropAssetToPlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -98,18 +98,18 @@ void OpenAPIMintApi::MintControllerAirdropResponse::SetHttpResponseCode(EHttpRes
 	}
 }
 
-bool OpenAPIMintApi::MintControllerAirdropResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIMintApi::AirdropAssetToPlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return true;
 }
 
-FString OpenAPIMintApi::MintControllerAwardRequest::ComputePath() const
+FString OpenAPIMintApi::AwardAssetToPlayerRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/mint/award"));
 	return Path;
 }
 
-void OpenAPIMintApi::MintControllerAwardRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIMintApi::AwardAssetToPlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json") };
 	//static const TArray<FString> Produces = {  };
@@ -126,7 +126,7 @@ void OpenAPIMintApi::MintControllerAwardRequest::SetupHttpRequest(const FHttpReq
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		WriteJsonValue(Writer, OpenAPIMintDto);
+		WriteJsonValue(Writer, OpenAPIMintInput);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -134,11 +134,11 @@ void OpenAPIMintApi::MintControllerAwardRequest::SetupHttpRequest(const FHttpReq
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in multipart form"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in multipart form"));
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in urlencoded requests"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in urlencoded requests"));
 	}
 	else
 	{
@@ -146,7 +146,7 @@ void OpenAPIMintApi::MintControllerAwardRequest::SetupHttpRequest(const FHttpReq
 	}
 }
 
-void OpenAPIMintApi::MintControllerAwardResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIMintApi::AwardAssetToPlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -178,258 +178,18 @@ void OpenAPIMintApi::MintControllerAwardResponse::SetHttpResponseCode(EHttpRespo
 	}
 }
 
-bool OpenAPIMintApi::MintControllerAwardResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIMintApi::AwardAssetToPlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return true;
 }
 
-FString OpenAPIMintApi::MintControllerMintRequest::ComputePath() const
-{
-	FString Path(TEXT("/v1/mint"));
-	return Path;
-}
-
-void OpenAPIMintApi::MintControllerMintRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = { TEXT("application/json") };
-	//static const TArray<FString> Produces = {  };
-
-	HttpRequest->SetVerb(TEXT("POST"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
-
-		WriteJsonValue(Writer, OpenAPIMintDto);
-		Writer->Close();
-
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in multipart form"));
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in urlencoded requests"));
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
-}
-
-void OpenAPIMintApi::MintControllerMintResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("Successfully minted asset to player"));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIMintApi::MintControllerMintResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return true;
-}
-
-FString OpenAPIMintApi::MintControllerMintBatchRequest::ComputePath() const
-{
-	FString Path(TEXT("/v1/mint/batch"));
-	return Path;
-}
-
-void OpenAPIMintApi::MintControllerMintBatchRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = { TEXT("application/json") };
-	//static const TArray<FString> Produces = {  };
-
-	HttpRequest->SetVerb(TEXT("POST"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
-
-		WriteJsonValue(Writer, OpenAPIMintBatchDto);
-		Writer->Close();
-
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchDto) was ignored, not supported in multipart form"));
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchDto) was ignored, not supported in urlencoded requests"));
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
-}
-
-void OpenAPIMintApi::MintControllerMintBatchResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("Successfully minted assets to player"));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIMintApi::MintControllerMintBatchResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return true;
-}
-
-FString OpenAPIMintApi::MintControllerPlayerMintRequest::ComputePath() const
-{
-	FString Path(TEXT("/v1/mint/player"));
-	return Path;
-}
-
-void OpenAPIMintApi::MintControllerPlayerMintRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = { TEXT("application/json") };
-	//static const TArray<FString> Produces = {  };
-
-	HttpRequest->SetVerb(TEXT("POST"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
-
-		WriteJsonValue(Writer, OpenAPIMintDto);
-		Writer->Close();
-
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in multipart form"));
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintDto) was ignored, not supported in urlencoded requests"));
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
-}
-
-void OpenAPIMintApi::MintControllerPlayerMintResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("Successfully minted asset by player"));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIMintApi::MintControllerPlayerMintResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return true;
-}
-
-FString OpenAPIMintApi::MintControllerPlayerMintBatchRequest::ComputePath() const
+FString OpenAPIMintApi::BatchMintAssetByPlayerRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/mint/batch-player"));
 	return Path;
 }
 
-void OpenAPIMintApi::MintControllerPlayerMintBatchRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIMintApi::BatchMintAssetByPlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json") };
 	//static const TArray<FString> Produces = {  };
@@ -446,7 +206,7 @@ void OpenAPIMintApi::MintControllerPlayerMintBatchRequest::SetupHttpRequest(cons
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		WriteJsonValue(Writer, OpenAPIMintBatchDto);
+		WriteJsonValue(Writer, OpenAPIMintBatchInput);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -454,11 +214,11 @@ void OpenAPIMintApi::MintControllerPlayerMintBatchRequest::SetupHttpRequest(cons
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchDto) was ignored, not supported in multipart form"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchInput) was ignored, not supported in multipart form"));
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchDto) was ignored, not supported in urlencoded requests"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchInput) was ignored, not supported in urlencoded requests"));
 	}
 	else
 	{
@@ -466,7 +226,7 @@ void OpenAPIMintApi::MintControllerPlayerMintBatchRequest::SetupHttpRequest(cons
 	}
 }
 
-void OpenAPIMintApi::MintControllerPlayerMintBatchResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIMintApi::BatchMintAssetByPlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -498,7 +258,247 @@ void OpenAPIMintApi::MintControllerPlayerMintBatchResponse::SetHttpResponseCode(
 	}
 }
 
-bool OpenAPIMintApi::MintControllerPlayerMintBatchResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIMintApi::BatchMintAssetByPlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return true;
+}
+
+FString OpenAPIMintApi::MintAssetRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/mint"));
+	return Path;
+}
+
+void OpenAPIMintApi::MintAssetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = { TEXT("application/json") };
+	//static const TArray<FString> Produces = {  };
+
+	HttpRequest->SetVerb(TEXT("POST"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+		// Body parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+
+		WriteJsonValue(Writer, OpenAPIMintInput);
+		Writer->Close();
+
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in multipart form"));
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in urlencoded requests"));
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIMintApi::MintAssetResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("Successfully minted asset to player"));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIMintApi::MintAssetResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return true;
+}
+
+FString OpenAPIMintApi::MintAssetByPlayerRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/mint/player"));
+	return Path;
+}
+
+void OpenAPIMintApi::MintAssetByPlayerRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = { TEXT("application/json") };
+	//static const TArray<FString> Produces = {  };
+
+	HttpRequest->SetVerb(TEXT("POST"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+		// Body parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+
+		WriteJsonValue(Writer, OpenAPIMintInput);
+		Writer->Close();
+
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in multipart form"));
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintInput) was ignored, not supported in urlencoded requests"));
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIMintApi::MintAssetByPlayerResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("Successfully minted asset by player"));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIMintApi::MintAssetByPlayerResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return true;
+}
+
+FString OpenAPIMintApi::MintBatchAssetRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/mint/batch"));
+	return Path;
+}
+
+void OpenAPIMintApi::MintBatchAssetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = { TEXT("application/json") };
+	//static const TArray<FString> Produces = {  };
+
+	HttpRequest->SetVerb(TEXT("POST"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+		// Body parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+
+		WriteJsonValue(Writer, OpenAPIMintBatchInput);
+		Writer->Close();
+
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchInput) was ignored, not supported in multipart form"));
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIMintBatchInput) was ignored, not supported in urlencoded requests"));
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIMintApi::MintBatchAssetResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("Successfully minted assets to player"));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIMintApi::MintBatchAssetResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return true;
 }

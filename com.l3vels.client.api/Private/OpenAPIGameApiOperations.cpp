@@ -51,7 +51,7 @@ void OpenAPIGameApi::GetGameByIdResponse::SetHttpResponseCode(EHttpResponseCodes
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("The game/project has been found."));
+		SetResponseString(TEXT("The Game has been found."));
 		break;
 	case 400:
 		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));

@@ -40,17 +40,17 @@ public:
 	/* The unique identifier of the collection that the Player asset is associated with. */
 	FString CollectionId;
 	/* The unique identifier of the account that the Player belongs to. */
-	double AccountId;
-	/* The unique identifier of the project that the Player is associated with. This allows developers to organize their players by project and helps with tracking and reporting. */
-	FString ProjectId;
+	FString AccountId;
+	/* The unique identifier of the game that the Player is associated with. This allows developers to organize their players by game and helps with tracking and reporting. */
+	FString GameId;
 	/* The date when the player was created. */
 	FDateTime CreatedOn;
 	/* The date when the player was last modified. */
 	FDateTime ModifiedOn;
 	/* The Id of the user who created the player. */
-	double CreatedBy;
+	FString CreatedBy;
 	/* The Id of the user who last modified the player. */
-	double ModifiedBy;
+	FString ModifiedBy;
 };
 
 }

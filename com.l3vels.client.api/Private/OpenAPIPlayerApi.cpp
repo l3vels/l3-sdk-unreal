@@ -187,6 +187,33 @@ void OpenAPIPlayerApi::OnCreatePlayerResponse(FHttpRequestPtr HttpRequest, FHttp
 	Delegate.ExecuteIfBound(Response);
 }
 
+FHttpRequestPtr OpenAPIPlayerApi::GetPlayerAssetById(const GetPlayerAssetByIdRequest& Request, const FGetPlayerAssetByIdDelegate& Delegate /*= FGetPlayerAssetByIdDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnGetPlayerAssetByIdResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIPlayerApi::OnGetPlayerAssetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerAssetByIdDelegate Delegate) const
+{
+	GetPlayerAssetByIdResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
 FHttpRequestPtr OpenAPIPlayerApi::GetPlayerById(const GetPlayerByIdRequest& Request, const FGetPlayerByIdDelegate& Delegate /*= FGetPlayerByIdDelegate()*/) const
 {
 	if (!IsValid())
@@ -241,7 +268,7 @@ void OpenAPIPlayerApi::OnGetPlayersResponse(FHttpRequestPtr HttpRequest, FHttpRe
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetById(const PlayerAssetControllerPlayerAssetByIdRequest& Request, const FPlayerAssetControllerPlayerAssetByIdDelegate& Delegate /*= FPlayerAssetControllerPlayerAssetByIdDelegate()*/) const
+FHttpRequestPtr OpenAPIPlayerApi::PlayerAssets(const PlayerAssetsRequest& Request, const FPlayerAssetsDelegate& Delegate /*= FPlayerAssetsDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -256,41 +283,14 @@ FHttpRequestPtr OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetById(const Pla
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerAssetControllerPlayerAssetByIdResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerAssetsResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPlayerApi::OnPlayerAssetControllerPlayerAssetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetControllerPlayerAssetByIdDelegate Delegate) const
+void OpenAPIPlayerApi::OnPlayerAssetsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetsDelegate Delegate) const
 {
-	PlayerAssetControllerPlayerAssetByIdResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
-}
-
-FHttpRequestPtr OpenAPIPlayerApi::PlayerAssetControllerPlayerAssets(const PlayerAssetControllerPlayerAssetsRequest& Request, const FPlayerAssetControllerPlayerAssetsDelegate& Delegate /*= FPlayerAssetControllerPlayerAssetsDelegate()*/) const
-{
-	if (!IsValid())
-		return nullptr;
-
-	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
-	HttpRequest->SetURL(*(Url + Request.ComputePath()));
-
-	for(const auto& It : AdditionalHeaderParams)
-	{
-		HttpRequest->SetHeader(It.Key, It.Value);
-	}
-
-	Request.SetupHttpRequest(HttpRequest);
-
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPlayerApi::OnPlayerAssetControllerPlayerAssetsResponse, Delegate);
-	HttpRequest->ProcessRequest();
-	return HttpRequest;
-}
-
-void OpenAPIPlayerApi::OnPlayerAssetControllerPlayerAssetsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetControllerPlayerAssetsDelegate Delegate) const
-{
-	PlayerAssetControllerPlayerAssetsResponse Response;
+	PlayerAssetsResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

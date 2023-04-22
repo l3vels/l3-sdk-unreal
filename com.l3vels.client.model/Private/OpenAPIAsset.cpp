@@ -39,7 +39,7 @@ void OpenAPIAsset::WriteJson(JsonWriter& Writer) const
 	Writer->WriteIdentifierPrefix(TEXT("medias")); WriteJsonValue(Writer, Medias);
 	Writer->WriteIdentifierPrefix(TEXT("main_media")); WriteJsonValue(Writer, MainMedia);
 	Writer->WriteIdentifierPrefix(TEXT("account_id")); WriteJsonValue(Writer, AccountId);
-	Writer->WriteIdentifierPrefix(TEXT("project_id")); WriteJsonValue(Writer, ProjectId);
+	Writer->WriteIdentifierPrefix(TEXT("game_id")); WriteJsonValue(Writer, GameId);
 	Writer->WriteIdentifierPrefix(TEXT("collection_id")); WriteJsonValue(Writer, CollectionId);
 	Writer->WriteIdentifierPrefix(TEXT("created_on")); WriteJsonValue(Writer, CreatedOn);
 	Writer->WriteIdentifierPrefix(TEXT("modified_on")); WriteJsonValue(Writer, ModifiedOn);
@@ -72,7 +72,7 @@ bool OpenAPIAsset::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("medias"), Medias);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("main_media"), MainMedia);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("account_id"), AccountId);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("project_id"), ProjectId);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("game_id"), GameId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("collection_id"), CollectionId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("created_on"), CreatedOn);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("modified_on"), ModifiedOn);

@@ -133,7 +133,7 @@ void OpenAPIMintApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceed
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-FHttpRequestPtr OpenAPIMintApi::MintControllerAirdrop(const MintControllerAirdropRequest& Request, const FMintControllerAirdropDelegate& Delegate /*= FMintControllerAirdropDelegate()*/) const
+FHttpRequestPtr OpenAPIMintApi::AirdropAssetToPlayer(const AirdropAssetToPlayerRequest& Request, const FAirdropAssetToPlayerDelegate& Delegate /*= FAirdropAssetToPlayerDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -148,19 +148,19 @@ FHttpRequestPtr OpenAPIMintApi::MintControllerAirdrop(const MintControllerAirdro
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintControllerAirdropResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnAirdropAssetToPlayerResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIMintApi::OnMintControllerAirdropResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerAirdropDelegate Delegate) const
+void OpenAPIMintApi::OnAirdropAssetToPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAirdropAssetToPlayerDelegate Delegate) const
 {
-	MintControllerAirdropResponse Response;
+	AirdropAssetToPlayerResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIMintApi::MintControllerAward(const MintControllerAwardRequest& Request, const FMintControllerAwardDelegate& Delegate /*= FMintControllerAwardDelegate()*/) const
+FHttpRequestPtr OpenAPIMintApi::AwardAssetToPlayer(const AwardAssetToPlayerRequest& Request, const FAwardAssetToPlayerDelegate& Delegate /*= FAwardAssetToPlayerDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -175,19 +175,19 @@ FHttpRequestPtr OpenAPIMintApi::MintControllerAward(const MintControllerAwardReq
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintControllerAwardResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnAwardAssetToPlayerResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIMintApi::OnMintControllerAwardResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerAwardDelegate Delegate) const
+void OpenAPIMintApi::OnAwardAssetToPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAwardAssetToPlayerDelegate Delegate) const
 {
-	MintControllerAwardResponse Response;
+	AwardAssetToPlayerResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIMintApi::MintControllerMint(const MintControllerMintRequest& Request, const FMintControllerMintDelegate& Delegate /*= FMintControllerMintDelegate()*/) const
+FHttpRequestPtr OpenAPIMintApi::BatchMintAssetByPlayer(const BatchMintAssetByPlayerRequest& Request, const FBatchMintAssetByPlayerDelegate& Delegate /*= FBatchMintAssetByPlayerDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -202,19 +202,19 @@ FHttpRequestPtr OpenAPIMintApi::MintControllerMint(const MintControllerMintReque
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintControllerMintResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnBatchMintAssetByPlayerResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIMintApi::OnMintControllerMintResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerMintDelegate Delegate) const
+void OpenAPIMintApi::OnBatchMintAssetByPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FBatchMintAssetByPlayerDelegate Delegate) const
 {
-	MintControllerMintResponse Response;
+	BatchMintAssetByPlayerResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIMintApi::MintControllerMintBatch(const MintControllerMintBatchRequest& Request, const FMintControllerMintBatchDelegate& Delegate /*= FMintControllerMintBatchDelegate()*/) const
+FHttpRequestPtr OpenAPIMintApi::MintAsset(const MintAssetRequest& Request, const FMintAssetDelegate& Delegate /*= FMintAssetDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -229,19 +229,19 @@ FHttpRequestPtr OpenAPIMintApi::MintControllerMintBatch(const MintControllerMint
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintControllerMintBatchResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintAssetResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIMintApi::OnMintControllerMintBatchResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerMintBatchDelegate Delegate) const
+void OpenAPIMintApi::OnMintAssetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintAssetDelegate Delegate) const
 {
-	MintControllerMintBatchResponse Response;
+	MintAssetResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIMintApi::MintControllerPlayerMint(const MintControllerPlayerMintRequest& Request, const FMintControllerPlayerMintDelegate& Delegate /*= FMintControllerPlayerMintDelegate()*/) const
+FHttpRequestPtr OpenAPIMintApi::MintAssetByPlayer(const MintAssetByPlayerRequest& Request, const FMintAssetByPlayerDelegate& Delegate /*= FMintAssetByPlayerDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -256,19 +256,19 @@ FHttpRequestPtr OpenAPIMintApi::MintControllerPlayerMint(const MintControllerPla
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintControllerPlayerMintResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintAssetByPlayerResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIMintApi::OnMintControllerPlayerMintResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerPlayerMintDelegate Delegate) const
+void OpenAPIMintApi::OnMintAssetByPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintAssetByPlayerDelegate Delegate) const
 {
-	MintControllerPlayerMintResponse Response;
+	MintAssetByPlayerResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIMintApi::MintControllerPlayerMintBatch(const MintControllerPlayerMintBatchRequest& Request, const FMintControllerPlayerMintBatchDelegate& Delegate /*= FMintControllerPlayerMintBatchDelegate()*/) const
+FHttpRequestPtr OpenAPIMintApi::MintBatchAsset(const MintBatchAssetRequest& Request, const FMintBatchAssetDelegate& Delegate /*= FMintBatchAssetDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -283,14 +283,14 @@ FHttpRequestPtr OpenAPIMintApi::MintControllerPlayerMintBatch(const MintControll
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintControllerPlayerMintBatchResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIMintApi::OnMintBatchAssetResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIMintApi::OnMintControllerPlayerMintBatchResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerPlayerMintBatchDelegate Delegate) const
+void OpenAPIMintApi::OnMintBatchAssetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintBatchAssetDelegate Delegate) const
 {
-	MintControllerPlayerMintBatchResponse Response;
+	MintBatchAssetResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

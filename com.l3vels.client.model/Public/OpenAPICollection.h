@@ -60,17 +60,17 @@ public:
 	/* The current status of the collection. Possible values are: Draft, Active */
 	FString Status;
 	/* The unique identifier of the account that the Collection belongs to. */
-	double AccountId;
-	/* The unique identifier of the project that the collection is associated with. This allows developers to organize their collections by project and helps with tracking and reporting. */
-	FString ProjectId;
+	FString AccountId;
+	/* The unique identifier of the game that the collection is associated with. This allows developers to organize their collections by game and helps with tracking and reporting. */
+	FString GameId;
 	/* The date when the collection was created. */
 	FDateTime CreatedOn;
 	/* The date when the collection was last modified. */
 	FDateTime ModifiedOn;
 	/* The Id of the user who created the collection. */
-	double CreatedBy;
+	FString CreatedBy;
 	/* The Id of the user who last modified the collection. */
-	double ModifiedBy;
+	FString ModifiedBy;
 };
 
 }

@@ -42,40 +42,40 @@ public:
 	class CountPlayersByGameIdResponse;
 	class CreatePlayerRequest;
 	class CreatePlayerResponse;
+	class GetPlayerAssetByIdRequest;
+	class GetPlayerAssetByIdResponse;
 	class GetPlayerByIdRequest;
 	class GetPlayerByIdResponse;
 	class GetPlayersRequest;
 	class GetPlayersResponse;
-	class PlayerAssetControllerPlayerAssetByIdRequest;
-	class PlayerAssetControllerPlayerAssetByIdResponse;
-	class PlayerAssetControllerPlayerAssetsRequest;
-	class PlayerAssetControllerPlayerAssetsResponse;
+	class PlayerAssetsRequest;
+	class PlayerAssetsResponse;
 	class UpdatePlayerRequest;
 	class UpdatePlayerResponse;
 	
     DECLARE_DELEGATE_OneParam(FCountPlayersByGameIdDelegate, const CountPlayersByGameIdResponse&);
     DECLARE_DELEGATE_OneParam(FCreatePlayerDelegate, const CreatePlayerResponse&);
+    DECLARE_DELEGATE_OneParam(FGetPlayerAssetByIdDelegate, const GetPlayerAssetByIdResponse&);
     DECLARE_DELEGATE_OneParam(FGetPlayerByIdDelegate, const GetPlayerByIdResponse&);
     DECLARE_DELEGATE_OneParam(FGetPlayersDelegate, const GetPlayersResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerAssetControllerPlayerAssetByIdDelegate, const PlayerAssetControllerPlayerAssetByIdResponse&);
-    DECLARE_DELEGATE_OneParam(FPlayerAssetControllerPlayerAssetsDelegate, const PlayerAssetControllerPlayerAssetsResponse&);
+    DECLARE_DELEGATE_OneParam(FPlayerAssetsDelegate, const PlayerAssetsResponse&);
     DECLARE_DELEGATE_OneParam(FUpdatePlayerDelegate, const UpdatePlayerResponse&);
     
     FHttpRequestPtr CountPlayersByGameId(const CountPlayersByGameIdRequest& Request, const FCountPlayersByGameIdDelegate& Delegate = FCountPlayersByGameIdDelegate()) const;
     FHttpRequestPtr CreatePlayer(const CreatePlayerRequest& Request, const FCreatePlayerDelegate& Delegate = FCreatePlayerDelegate()) const;
+    FHttpRequestPtr GetPlayerAssetById(const GetPlayerAssetByIdRequest& Request, const FGetPlayerAssetByIdDelegate& Delegate = FGetPlayerAssetByIdDelegate()) const;
     FHttpRequestPtr GetPlayerById(const GetPlayerByIdRequest& Request, const FGetPlayerByIdDelegate& Delegate = FGetPlayerByIdDelegate()) const;
     FHttpRequestPtr GetPlayers(const GetPlayersRequest& Request, const FGetPlayersDelegate& Delegate = FGetPlayersDelegate()) const;
-    FHttpRequestPtr PlayerAssetControllerPlayerAssetById(const PlayerAssetControllerPlayerAssetByIdRequest& Request, const FPlayerAssetControllerPlayerAssetByIdDelegate& Delegate = FPlayerAssetControllerPlayerAssetByIdDelegate()) const;
-    FHttpRequestPtr PlayerAssetControllerPlayerAssets(const PlayerAssetControllerPlayerAssetsRequest& Request, const FPlayerAssetControllerPlayerAssetsDelegate& Delegate = FPlayerAssetControllerPlayerAssetsDelegate()) const;
+    FHttpRequestPtr PlayerAssets(const PlayerAssetsRequest& Request, const FPlayerAssetsDelegate& Delegate = FPlayerAssetsDelegate()) const;
     FHttpRequestPtr UpdatePlayer(const UpdatePlayerRequest& Request, const FUpdatePlayerDelegate& Delegate = FUpdatePlayerDelegate()) const;
     
 private:
     void OnCountPlayersByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCountPlayersByGameIdDelegate Delegate) const;
     void OnCreatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerDelegate Delegate) const;
+    void OnGetPlayerAssetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerAssetByIdDelegate Delegate) const;
     void OnGetPlayerByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerByIdDelegate Delegate) const;
     void OnGetPlayersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayersDelegate Delegate) const;
-    void OnPlayerAssetControllerPlayerAssetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetControllerPlayerAssetByIdDelegate Delegate) const;
-    void OnPlayerAssetControllerPlayerAssetsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetControllerPlayerAssetsDelegate Delegate) const;
+    void OnPlayerAssetsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerAssetsDelegate Delegate) const;
     void OnUpdatePlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;

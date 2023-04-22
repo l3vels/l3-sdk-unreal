@@ -15,33 +15,33 @@
 #include "OpenAPIBaseModel.h"
 #include "OpenAPIContractApi.h"
 
-#include "com.l3vels.client.model/OpenAPISetContractUriDto.h"
-#include "com.l3vels.client.model/OpenAPISetSaleStatusDto.h"
+#include "com.l3vels.client.model/OpenAPISetContractUriInput.h"
+#include "com.l3vels.client.model/OpenAPISetSaleStatusInput.h"
 
 namespace OpenAPI
 {
 
 /* Collection size
  *
- * Get size of collection
+ * Count total contract in game.
 */
-class OPENAPI_API OpenAPIContractApi::ContractControllerCollectionSizeRequest : public Request
+class OPENAPI_API OpenAPIContractApi::CountContractsByGameIdRequest : public Request
 {
 public:
-    virtual ~ContractControllerCollectionSizeRequest() {}
+    virtual ~CountContractsByGameIdRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 	FString CollectionId;
-	FString ProjectId;
+	FString GameId;
 };
 
-class OPENAPI_API OpenAPIContractApi::ContractControllerCollectionSizeResponse : public Response
+class OPENAPI_API OpenAPIContractApi::CountContractsByGameIdResponse : public Response
 {
 public:
-    virtual ~ContractControllerCollectionSizeResponse() {}
+    virtual ~CountContractsByGameIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -52,23 +52,23 @@ public:
  *
  * Gets contract uri of contract
 */
-class OPENAPI_API OpenAPIContractApi::ContractControllerContractUriRequest : public Request
+class OPENAPI_API OpenAPIContractApi::GetContractURIRequest : public Request
 {
 public:
-    virtual ~ContractControllerContractUriRequest() {}
+    virtual ~GetContractURIRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 	FString CollectionId;
-	FString ProjectId;
+	FString GameId;
 };
 
-class OPENAPI_API OpenAPIContractApi::ContractControllerContractUriResponse : public Response
+class OPENAPI_API OpenAPIContractApi::GetContractURIResponse : public Response
 {
 public:
-    virtual ~ContractControllerContractUriResponse() {}
+    virtual ~GetContractURIResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -79,22 +79,22 @@ public:
  *
  * Update Contract URI
 */
-class OPENAPI_API OpenAPIContractApi::ContractControllerSetContractUriRequest : public Request
+class OPENAPI_API OpenAPIContractApi::SetContractURIRequest : public Request
 {
 public:
-    virtual ~ContractControllerSetContractUriRequest() {}
+    virtual ~SetContractURIRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	OpenAPISetContractUriDto OpenAPISetContractUriDto;
+	OpenAPISetContractUriInput OpenAPISetContractUriInput;
 };
 
-class OPENAPI_API OpenAPIContractApi::ContractControllerSetContractUriResponse : public Response
+class OPENAPI_API OpenAPIContractApi::SetContractURIResponse : public Response
 {
 public:
-    virtual ~ContractControllerSetContractUriResponse() {}
+    virtual ~SetContractURIResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -105,22 +105,22 @@ public:
  *
  * Update Sale status to PAUSED, PRE_SALE or PUBLIC
 */
-class OPENAPI_API OpenAPIContractApi::ContractControllerSetSaleStatusRequest : public Request
+class OPENAPI_API OpenAPIContractApi::UpdateSaleStatusRequest : public Request
 {
 public:
-    virtual ~ContractControllerSetSaleStatusRequest() {}
+    virtual ~UpdateSaleStatusRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	OpenAPISetSaleStatusDto OpenAPISetSaleStatusDto;
+	OpenAPISetSaleStatusInput OpenAPISetSaleStatusInput;
 };
 
-class OPENAPI_API OpenAPIContractApi::ContractControllerSetSaleStatusResponse : public Response
+class OPENAPI_API OpenAPIContractApi::UpdateSaleStatusResponse : public Response
 {
 public:
-    virtual ~ContractControllerSetSaleStatusResponse() {}
+    virtual ~UpdateSaleStatusResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 

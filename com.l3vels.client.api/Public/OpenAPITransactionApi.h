@@ -38,24 +38,24 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
-	class TransactionControllerTransactionByIdRequest;
-	class TransactionControllerTransactionByIdResponse;
-	class TransactionControllerTransactionsRequest;
-	class TransactionControllerTransactionsResponse;
+	class GetTransactionByIdRequest;
+	class GetTransactionByIdResponse;
+	class GetTransactionsRequest;
+	class GetTransactionsResponse;
 	class TransactionControllerWebhookRequest;
 	class TransactionControllerWebhookResponse;
 	
-    DECLARE_DELEGATE_OneParam(FTransactionControllerTransactionByIdDelegate, const TransactionControllerTransactionByIdResponse&);
-    DECLARE_DELEGATE_OneParam(FTransactionControllerTransactionsDelegate, const TransactionControllerTransactionsResponse&);
+    DECLARE_DELEGATE_OneParam(FGetTransactionByIdDelegate, const GetTransactionByIdResponse&);
+    DECLARE_DELEGATE_OneParam(FGetTransactionsDelegate, const GetTransactionsResponse&);
     DECLARE_DELEGATE_OneParam(FTransactionControllerWebhookDelegate, const TransactionControllerWebhookResponse&);
     
-    FHttpRequestPtr TransactionControllerTransactionById(const TransactionControllerTransactionByIdRequest& Request, const FTransactionControllerTransactionByIdDelegate& Delegate = FTransactionControllerTransactionByIdDelegate()) const;
-    FHttpRequestPtr TransactionControllerTransactions(const TransactionControllerTransactionsRequest& Request, const FTransactionControllerTransactionsDelegate& Delegate = FTransactionControllerTransactionsDelegate()) const;
+    FHttpRequestPtr GetTransactionById(const GetTransactionByIdRequest& Request, const FGetTransactionByIdDelegate& Delegate = FGetTransactionByIdDelegate()) const;
+    FHttpRequestPtr GetTransactions(const GetTransactionsRequest& Request, const FGetTransactionsDelegate& Delegate = FGetTransactionsDelegate()) const;
     FHttpRequestPtr TransactionControllerWebhook(const TransactionControllerWebhookRequest& Request, const FTransactionControllerWebhookDelegate& Delegate = FTransactionControllerWebhookDelegate()) const;
     
 private:
-    void OnTransactionControllerTransactionByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FTransactionControllerTransactionByIdDelegate Delegate) const;
-    void OnTransactionControllerTransactionsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FTransactionControllerTransactionsDelegate Delegate) const;
+    void OnGetTransactionByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionByIdDelegate Delegate) const;
+    void OnGetTransactionsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionsDelegate Delegate) const;
     void OnTransactionControllerWebhookResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FTransactionControllerWebhookDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;

@@ -16,8 +16,8 @@
 #include "OpenAPIAssetApi.h"
 
 #include "com.l3vels.client.model/OpenAPIAsset.h"
-#include "com.l3vels.client.model/OpenAPIAssetsResponseDto.h"
-#include "com.l3vels.client.model/OpenAPIUpdateAssetDto.h"
+#include "com.l3vels.client.model/OpenAPIAssetsResponse.h"
+#include "com.l3vels.client.model/OpenAPIUpdateAssetInput.h"
 
 namespace OpenAPI
 {
@@ -33,9 +33,9 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	FString ProjectId;
+	FString GameId;
 };
 
 class OPENAPI_API OpenAPIAssetApi::CountByGameResponse : public Response
@@ -50,7 +50,7 @@ public:
 
 /* Retrieve asset by ID
  *
- * Retrieve asset by ID in specific game/project. Example: Find asset AK-47 in game Call of Duty
+ * Retrieve asset by ID in specific Game. Example: Find asset AK-47 in game Call of Duty
 */
 class OPENAPI_API OpenAPIAssetApi::GetAssetByIdRequest : public Request
 {
@@ -59,12 +59,12 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 	/* Asset ID to find */
 	FString Id;
-	/* Game/project ID to find asset in */
-	FString ProjectId;
+	/* Game ID to find asset in */
+	FString GameId;
 };
 
 class OPENAPI_API OpenAPIAssetApi::GetAssetByIdResponse : public Response
@@ -88,10 +88,10 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game/project ID to find assets in your game. Example: Fortnite, Minecraft, etc. */
-	FString ProjectId;
+	/* Game ID to find assets in your game. Example: Fortnite, Minecraft, etc. */
+	FString GameId;
 	/* Filter assets by collection. Example: Get assets only from Weapons collection. */
 	TOptional<FString> CollectionId;
 	/* Asset field to sort by. You can sort by name, created_on and etc. */
@@ -121,7 +121,7 @@ public:
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
-    OpenAPIAssetsResponseDto Content;
+    OpenAPIAssetsResponse Content;
 };
 
 /* Update asset
@@ -135,11 +135,11 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 	/* Asset ID to update */
 	FString Id;
-	OpenAPIUpdateAssetDto OpenAPIUpdateAssetDto;
+	OpenAPIUpdateAssetInput OpenAPIUpdateAssetInput;
 };
 
 class OPENAPI_API OpenAPIAssetApi::UpdateAssetResponse : public Response

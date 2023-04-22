@@ -38,30 +38,30 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
-	class ContractControllerCollectionSizeRequest;
-	class ContractControllerCollectionSizeResponse;
-	class ContractControllerContractUriRequest;
-	class ContractControllerContractUriResponse;
-	class ContractControllerSetContractUriRequest;
-	class ContractControllerSetContractUriResponse;
-	class ContractControllerSetSaleStatusRequest;
-	class ContractControllerSetSaleStatusResponse;
+	class CountContractsByGameIdRequest;
+	class CountContractsByGameIdResponse;
+	class GetContractURIRequest;
+	class GetContractURIResponse;
+	class SetContractURIRequest;
+	class SetContractURIResponse;
+	class UpdateSaleStatusRequest;
+	class UpdateSaleStatusResponse;
 	
-    DECLARE_DELEGATE_OneParam(FContractControllerCollectionSizeDelegate, const ContractControllerCollectionSizeResponse&);
-    DECLARE_DELEGATE_OneParam(FContractControllerContractUriDelegate, const ContractControllerContractUriResponse&);
-    DECLARE_DELEGATE_OneParam(FContractControllerSetContractUriDelegate, const ContractControllerSetContractUriResponse&);
-    DECLARE_DELEGATE_OneParam(FContractControllerSetSaleStatusDelegate, const ContractControllerSetSaleStatusResponse&);
+    DECLARE_DELEGATE_OneParam(FCountContractsByGameIdDelegate, const CountContractsByGameIdResponse&);
+    DECLARE_DELEGATE_OneParam(FGetContractURIDelegate, const GetContractURIResponse&);
+    DECLARE_DELEGATE_OneParam(FSetContractURIDelegate, const SetContractURIResponse&);
+    DECLARE_DELEGATE_OneParam(FUpdateSaleStatusDelegate, const UpdateSaleStatusResponse&);
     
-    FHttpRequestPtr ContractControllerCollectionSize(const ContractControllerCollectionSizeRequest& Request, const FContractControllerCollectionSizeDelegate& Delegate = FContractControllerCollectionSizeDelegate()) const;
-    FHttpRequestPtr ContractControllerContractUri(const ContractControllerContractUriRequest& Request, const FContractControllerContractUriDelegate& Delegate = FContractControllerContractUriDelegate()) const;
-    FHttpRequestPtr ContractControllerSetContractUri(const ContractControllerSetContractUriRequest& Request, const FContractControllerSetContractUriDelegate& Delegate = FContractControllerSetContractUriDelegate()) const;
-    FHttpRequestPtr ContractControllerSetSaleStatus(const ContractControllerSetSaleStatusRequest& Request, const FContractControllerSetSaleStatusDelegate& Delegate = FContractControllerSetSaleStatusDelegate()) const;
+    FHttpRequestPtr CountContractsByGameId(const CountContractsByGameIdRequest& Request, const FCountContractsByGameIdDelegate& Delegate = FCountContractsByGameIdDelegate()) const;
+    FHttpRequestPtr GetContractURI(const GetContractURIRequest& Request, const FGetContractURIDelegate& Delegate = FGetContractURIDelegate()) const;
+    FHttpRequestPtr SetContractURI(const SetContractURIRequest& Request, const FSetContractURIDelegate& Delegate = FSetContractURIDelegate()) const;
+    FHttpRequestPtr UpdateSaleStatus(const UpdateSaleStatusRequest& Request, const FUpdateSaleStatusDelegate& Delegate = FUpdateSaleStatusDelegate()) const;
     
 private:
-    void OnContractControllerCollectionSizeResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerCollectionSizeDelegate Delegate) const;
-    void OnContractControllerContractUriResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerContractUriDelegate Delegate) const;
-    void OnContractControllerSetContractUriResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerSetContractUriDelegate Delegate) const;
-    void OnContractControllerSetSaleStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FContractControllerSetSaleStatusDelegate Delegate) const;
+    void OnCountContractsByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCountContractsByGameIdDelegate Delegate) const;
+    void OnGetContractURIResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContractURIDelegate Delegate) const;
+    void OnSetContractURIResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetContractURIDelegate Delegate) const;
+    void OnUpdateSaleStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateSaleStatusDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;

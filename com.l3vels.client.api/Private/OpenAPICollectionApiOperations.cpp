@@ -26,9 +26,9 @@ namespace OpenAPI
 FString OpenAPICollectionApi::CountCollectionsByGameIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/collection/count/{project_id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/collection/count/{game_id}"), PathParams);
 
 	return Path;
 }
@@ -86,9 +86,9 @@ FString OpenAPICollectionApi::GetCollectionByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
 	{ TEXT("id"), ToStringFormatArg(Id) },
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/collection/{project_id}/{id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/collection/{game_id}/{id}"), PathParams);
 
 	return Path;
 }
@@ -146,7 +146,7 @@ FString OpenAPICollectionApi::GetCollectionsRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/collection"));
 	TArray<FString> QueryParams;
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
 	if(Sort.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("sort=")) + ToUrlString(Sort.GetValue()));

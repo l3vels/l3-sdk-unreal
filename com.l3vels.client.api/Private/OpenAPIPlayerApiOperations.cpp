@@ -26,9 +26,9 @@ namespace OpenAPI
 FString OpenAPIPlayerApi::CountPlayersByGameIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/player/count/{project_id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/player/count/{game_id}"), PathParams);
 
 	return Path;
 }
@@ -105,7 +105,7 @@ void OpenAPIPlayerApi::CreatePlayerRequest::SetupHttpRequest(const FHttpRequestR
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		WriteJsonValue(Writer, OpenAPICreatePlayerDto);
+		WriteJsonValue(Writer, OpenAPICreatePlayerInput);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -113,11 +113,11 @@ void OpenAPIPlayerApi::CreatePlayerRequest::SetupHttpRequest(const FHttpRequestR
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerDto) was ignored, not supported in multipart form"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerInput) was ignored, not supported in multipart form"));
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerDto) was ignored, not supported in urlencoded requests"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPICreatePlayerInput) was ignored, not supported in urlencoded requests"));
 	}
 	else
 	{
@@ -162,13 +162,73 @@ bool OpenAPIPlayerApi::CreatePlayerResponse::FromJson(const TSharedPtr<FJsonValu
 	return TryGetJsonValue(JsonValue, Content);
 }
 
+FString OpenAPIPlayerApi::GetPlayerAssetByIdRequest::ComputePath() const
+{
+	TMap<FString, FStringFormatArg> PathParams = { 
+	{ TEXT("id"), ToStringFormatArg(Id) },
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
+
+	FString Path = FString::Format(TEXT("/v1/player-asset/{game_id}/{id}"), PathParams);
+
+	return Path;
+}
+
+void OpenAPIPlayerApi::GetPlayerAssetByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+}
+
+void OpenAPIPlayerApi::GetPlayerAssetByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The player asset has been found."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIPlayerApi::GetPlayerAssetByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
 FString OpenAPIPlayerApi::GetPlayerByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
 	{ TEXT("id"), ToStringFormatArg(Id) },
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/player/{project_id}/{id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/player/{game_id}/{id}"), PathParams);
 
 	return Path;
 }
@@ -226,7 +286,7 @@ FString OpenAPIPlayerApi::GetPlayersRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/player"));
 	TArray<FString> QueryParams;
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
 	if(Sort.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("sort=")) + ToUrlString(Sort.GetValue()));
@@ -302,71 +362,11 @@ bool OpenAPIPlayerApi::GetPlayersResponse::FromJson(const TSharedPtr<FJsonValue>
 	return TryGetJsonValue(JsonValue, Content);
 }
 
-FString OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetByIdRequest::ComputePath() const
-{
-	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("id"), ToStringFormatArg(Id) },
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
-
-	FString Path = FString::Format(TEXT("/v1/player-asset/{project_id}/{id}"), PathParams);
-
-	return Path;
-}
-
-void OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = {  };
-	//static const TArray<FString> Produces = { TEXT("application/json") };
-
-	HttpRequest->SetVerb(TEXT("GET"));
-
-	// Header parameters
-	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
-
-}
-
-void OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("The player asset has been found."));
-		break;
-	case 400:
-		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
-		break;
-	case 401:
-		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
-		break;
-	case 404:
-		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
-		break;
-	case 409:
-		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
-		break;
-	case 429:
-		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
-		break;
-	case 500:
-		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
-		break;
-	case 504:
-		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
-		break;
-	}
-}
-
-bool OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return TryGetJsonValue(JsonValue, Content);
-}
-
-FString OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsRequest::ComputePath() const
+FString OpenAPIPlayerApi::PlayerAssetsRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/player-asset"));
 	TArray<FString> QueryParams;
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
 	if(AssetId.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("asset_id=")) + ToUrlString(AssetId.GetValue()));
@@ -397,7 +397,7 @@ FString OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsRequest::ComputePath(
 	return Path;
 }
 
-void OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIPlayerApi::PlayerAssetsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -409,7 +409,7 @@ void OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsRequest::SetupHttpReques
 
 }
 
-void OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIPlayerApi::PlayerAssetsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -441,7 +441,7 @@ void OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsResponse::SetHttpRespons
 	}
 }
 
-bool OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIPlayerApi::PlayerAssetsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return TryGetJsonValue(JsonValue, Content);
 }

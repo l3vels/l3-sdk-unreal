@@ -15,8 +15,8 @@
 #include "OpenAPIBaseModel.h"
 #include "OpenAPIMintApi.h"
 
-#include "com.l3vels.client.model/OpenAPIMintBatchDto.h"
-#include "com.l3vels.client.model/OpenAPIMintDto.h"
+#include "com.l3vels.client.model/OpenAPIMintBatchInput.h"
+#include "com.l3vels.client.model/OpenAPIMintInput.h"
 
 namespace OpenAPI
 {
@@ -25,22 +25,22 @@ namespace OpenAPI
  *
  * Airdrop asset to player
 */
-class OPENAPI_API OpenAPIMintApi::MintControllerAirdropRequest : public Request
+class OPENAPI_API OpenAPIMintApi::AirdropAssetToPlayerRequest : public Request
 {
 public:
-    virtual ~MintControllerAirdropRequest() {}
+    virtual ~AirdropAssetToPlayerRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	OpenAPIMintDto OpenAPIMintDto;
+	OpenAPIMintInput OpenAPIMintInput;
 };
 
-class OPENAPI_API OpenAPIMintApi::MintControllerAirdropResponse : public Response
+class OPENAPI_API OpenAPIMintApi::AirdropAssetToPlayerResponse : public Response
 {
 public:
-    virtual ~MintControllerAirdropResponse() {}
+    virtual ~AirdropAssetToPlayerResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -51,100 +51,22 @@ public:
  *
  * Award asset to player
 */
-class OPENAPI_API OpenAPIMintApi::MintControllerAwardRequest : public Request
+class OPENAPI_API OpenAPIMintApi::AwardAssetToPlayerRequest : public Request
 {
 public:
-    virtual ~MintControllerAwardRequest() {}
+    virtual ~AwardAssetToPlayerRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	OpenAPIMintDto OpenAPIMintDto;
+	OpenAPIMintInput OpenAPIMintInput;
 };
 
-class OPENAPI_API OpenAPIMintApi::MintControllerAwardResponse : public Response
+class OPENAPI_API OpenAPIMintApi::AwardAssetToPlayerResponse : public Response
 {
 public:
-    virtual ~MintControllerAwardResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    
-};
-
-/* Mint asset
- *
- * Mint an asset by admin to player
-*/
-class OPENAPI_API OpenAPIMintApi::MintControllerMintRequest : public Request
-{
-public:
-    virtual ~MintControllerMintRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	OpenAPIMintDto OpenAPIMintDto;
-};
-
-class OPENAPI_API OpenAPIMintApi::MintControllerMintResponse : public Response
-{
-public:
-    virtual ~MintControllerMintResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    
-};
-
-/* Batch mint assets
- *
- * Batch mint assets by admin to player
-*/
-class OPENAPI_API OpenAPIMintApi::MintControllerMintBatchRequest : public Request
-{
-public:
-    virtual ~MintControllerMintBatchRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	OpenAPIMintBatchDto OpenAPIMintBatchDto;
-};
-
-class OPENAPI_API OpenAPIMintApi::MintControllerMintBatchResponse : public Response
-{
-public:
-    virtual ~MintControllerMintBatchResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    
-};
-
-/* Mint asset by player
- *
- * Mint asset by player. Player must have enough balance to mint.
-*/
-class OPENAPI_API OpenAPIMintApi::MintControllerPlayerMintRequest : public Request
-{
-public:
-    virtual ~MintControllerPlayerMintRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	OpenAPIMintDto OpenAPIMintDto;
-};
-
-class OPENAPI_API OpenAPIMintApi::MintControllerPlayerMintResponse : public Response
-{
-public:
-    virtual ~MintControllerPlayerMintResponse() {}
+    virtual ~AwardAssetToPlayerResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -155,22 +77,100 @@ public:
  *
  * Batch mint assets by player. Player must have enough balance to mint.
 */
-class OPENAPI_API OpenAPIMintApi::MintControllerPlayerMintBatchRequest : public Request
+class OPENAPI_API OpenAPIMintApi::BatchMintAssetByPlayerRequest : public Request
 {
 public:
-    virtual ~MintControllerPlayerMintBatchRequest() {}
+    virtual ~BatchMintAssetByPlayerRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	OpenAPIMintBatchDto OpenAPIMintBatchDto;
+	OpenAPIMintBatchInput OpenAPIMintBatchInput;
 };
 
-class OPENAPI_API OpenAPIMintApi::MintControllerPlayerMintBatchResponse : public Response
+class OPENAPI_API OpenAPIMintApi::BatchMintAssetByPlayerResponse : public Response
 {
 public:
-    virtual ~MintControllerPlayerMintBatchResponse() {}
+    virtual ~BatchMintAssetByPlayerResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    
+};
+
+/* Mint asset
+ *
+ * Mint an asset by admin to player
+*/
+class OPENAPI_API OpenAPIMintApi::MintAssetRequest : public Request
+{
+public:
+    virtual ~MintAssetRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	OpenAPIMintInput OpenAPIMintInput;
+};
+
+class OPENAPI_API OpenAPIMintApi::MintAssetResponse : public Response
+{
+public:
+    virtual ~MintAssetResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    
+};
+
+/* Mint asset by player
+ *
+ * Mint asset by player. Player must have enough balance to mint.
+*/
+class OPENAPI_API OpenAPIMintApi::MintAssetByPlayerRequest : public Request
+{
+public:
+    virtual ~MintAssetByPlayerRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	OpenAPIMintInput OpenAPIMintInput;
+};
+
+class OPENAPI_API OpenAPIMintApi::MintAssetByPlayerResponse : public Response
+{
+public:
+    virtual ~MintAssetByPlayerResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    
+};
+
+/* Batch mint assets
+ *
+ * Batch mint assets by admin to player
+*/
+class OPENAPI_API OpenAPIMintApi::MintBatchAssetRequest : public Request
+{
+public:
+    virtual ~MintBatchAssetRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	OpenAPIMintBatchInput OpenAPIMintBatchInput;
+};
+
+class OPENAPI_API OpenAPIMintApi::MintBatchAssetResponse : public Response
+{
+public:
+    virtual ~MintBatchAssetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 

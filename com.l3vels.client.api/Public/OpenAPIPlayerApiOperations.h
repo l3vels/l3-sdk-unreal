@@ -15,7 +15,7 @@
 #include "OpenAPIBaseModel.h"
 #include "OpenAPIPlayerApi.h"
 
-#include "com.l3vels.client.model/OpenAPICreatePlayerDto.h"
+#include "com.l3vels.client.model/OpenAPICreatePlayerInput.h"
 #include "com.l3vels.client.model/OpenAPIPlayer.h"
 #include "com.l3vels.client.model/OpenAPIPlayerAsset.h"
 
@@ -33,10 +33,10 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 	/* Game Id */
-	FString ProjectId;
+	FString GameId;
 };
 
 class OPENAPI_API OpenAPIPlayerApi::CountPlayersByGameIdResponse : public Response
@@ -51,7 +51,7 @@ public:
 
 /* Create new player
  *
- * Create new player for game/project. Example: Create new player Jack in game Call of Duty.
+ * Create new player for Game. Example: Create new player Jack in game Call of Duty.
 */
 class OPENAPI_API OpenAPIPlayerApi::CreatePlayerRequest : public Request
 {
@@ -60,9 +60,9 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	OpenAPICreatePlayerDto OpenAPICreatePlayerDto;
+	OpenAPICreatePlayerInput OpenAPICreatePlayerInput;
 };
 
 class OPENAPI_API OpenAPIPlayerApi::CreatePlayerResponse : public Response
@@ -75,9 +75,36 @@ public:
     OpenAPIPlayer Content;
 };
 
+/* Retrieve player asset by ID
+ *
+ * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
+*/
+class OPENAPI_API OpenAPIPlayerApi::GetPlayerAssetByIdRequest : public Request
+{
+public:
+    virtual ~GetPlayerAssetByIdRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	FString Id;
+	FString GameId;
+};
+
+class OPENAPI_API OpenAPIPlayerApi::GetPlayerAssetByIdResponse : public Response
+{
+public:
+    virtual ~GetPlayerAssetByIdResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPIPlayerAsset Content;
+};
+
 /* Retrieve player by ID
  *
- * Retrieves a specific player by ID associated with game/project. Example: retrieve player Jack from game Call of Duty.
+ * Retrieves a specific player by ID associated with Game. Example: retrieve player Jack from game Call of Duty.
 */
 class OPENAPI_API OpenAPIPlayerApi::GetPlayerByIdRequest : public Request
 {
@@ -86,12 +113,12 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Player ID that you created in your game/project. Example: Jack, George, etc. */
+	/* Player ID that you created in your Game. Example: Jack, George, etc. */
 	FString Id;
-	/* Game/project ID to find asset in. Example: Call of Duty, Fortnite, etc. */
-	FString ProjectId;
+	/* Game ID to find asset in. Example: Call of Duty, Fortnite, etc. */
+	FString GameId;
 };
 
 class OPENAPI_API OpenAPIPlayerApi::GetPlayerByIdResponse : public Response
@@ -115,10 +142,10 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game/project ID to find player in your game. Example: Fortnite, Minecraft, etc. */
-	FString ProjectId;
+	/* Game ID to find player in your game. Example: Fortnite, Minecraft, etc. */
+	FString GameId;
 	/* Player field to sort by. You can sort by name, created_on and etc. */
 	TOptional<FString> Sort;
 	/* Sort order (ASC for ascending or DESC for descending) */
@@ -141,51 +168,24 @@ public:
     TArray<OpenAPIPlayer> Content;
 };
 
-/* Retrieve player asset by ID
- *
- * Retrieve player asset by ID. Player asset represents a single asset that a player owns. It has amount field that represents how many of this asset player owns.
-*/
-class OPENAPI_API OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetByIdRequest : public Request
-{
-public:
-    virtual ~PlayerAssetControllerPlayerAssetByIdRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
-	FString Authorization;
-	FString Id;
-	FString ProjectId;
-};
-
-class OPENAPI_API OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetByIdResponse : public Response
-{
-public:
-    virtual ~PlayerAssetControllerPlayerAssetByIdResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    OpenAPIPlayerAsset Content;
-};
-
 /* Retrieve player assets
  *
- * This API method retrieves a list of Player assets that match the specified filter criteria. Developers can use this method to retrieve Player assets by player, game/project or other properties.
+ * This API method retrieves a list of Player assets that match the specified filter criteria. Developers can use this method to retrieve Player assets by player, Game or other properties.
 */
-class OPENAPI_API OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsRequest : public Request
+class OPENAPI_API OpenAPIPlayerApi::PlayerAssetsRequest : public Request
 {
 public:
-    virtual ~PlayerAssetControllerPlayerAssetsRequest() {}
+    virtual ~PlayerAssetsRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game/project ID to find player assets in your game. Example: Fortnite, Minecraft, etc. */
-	FString ProjectId;
-	/* Game/project ID to find player assets in your game. Example: Fortnite, Minecraft, etc. */
+	/* Game ID to find player assets in your game. Example: Fortnite, Minecraft, etc. */
+	FString GameId;
+	/* Game ID to find player assets in your game. Example: Fortnite, Minecraft, etc. */
 	TOptional<FString> AssetId;
-	/* Game/project ID to find player assets in your game. Example: Fortnite, Minecraft, etc. */
+	/* Game ID to find player assets in your game. Example: Fortnite, Minecraft, etc. */
 	TOptional<FString> PlayerId;
 	/* Player asset field to sort by. You can sort by name, created_on and etc. */
 	TOptional<FString> Sort;
@@ -197,10 +197,10 @@ public:
 	TOptional<double> Page;
 };
 
-class OPENAPI_API OpenAPIPlayerApi::PlayerAssetControllerPlayerAssetsResponse : public Response
+class OPENAPI_API OpenAPIPlayerApi::PlayerAssetsResponse : public Response
 {
 public:
-    virtual ~PlayerAssetControllerPlayerAssetsResponse() {}
+    virtual ~PlayerAssetsResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -218,7 +218,7 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 };
 

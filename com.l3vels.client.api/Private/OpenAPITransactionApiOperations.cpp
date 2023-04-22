@@ -23,18 +23,18 @@
 namespace OpenAPI
 {
 
-FString OpenAPITransactionApi::TransactionControllerTransactionByIdRequest::ComputePath() const
+FString OpenAPITransactionApi::GetTransactionByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
 	{ TEXT("id"), ToStringFormatArg(Id) },
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/transaction/{project_id}/{id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/transaction/{game_id}/{id}"), PathParams);
 
 	return Path;
 }
 
-void OpenAPITransactionApi::TransactionControllerTransactionByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPITransactionApi::GetTransactionByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -46,7 +46,7 @@ void OpenAPITransactionApi::TransactionControllerTransactionByIdRequest::SetupHt
 
 }
 
-void OpenAPITransactionApi::TransactionControllerTransactionByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPITransactionApi::GetTransactionByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -78,35 +78,35 @@ void OpenAPITransactionApi::TransactionControllerTransactionByIdResponse::SetHtt
 	}
 }
 
-bool OpenAPITransactionApi::TransactionControllerTransactionByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPITransactionApi::GetTransactionByIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return TryGetJsonValue(JsonValue, Content);
 }
 
-inline FString ToString(const OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum& Value)
+inline FString ToString(const OpenAPITransactionApi::GetTransactionsRequest::OrderEnum& Value)
 {
 	switch (Value)
 	{
-	case OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum::Asc:
+	case OpenAPITransactionApi::GetTransactionsRequest::OrderEnum::Asc:
 		return TEXT("ASC");
-	case OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum::Desc:
+	case OpenAPITransactionApi::GetTransactionsRequest::OrderEnum::Desc:
 		return TEXT("DESC");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum Value (%d)"), (int)Value);
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPITransactionApi::GetTransactionsRequest::OrderEnum Value (%d)"), (int)Value);
 	return TEXT("");
 }
 
-FString OpenAPITransactionApi::TransactionControllerTransactionsRequest::EnumToString(const OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum& EnumValue)
+FString OpenAPITransactionApi::GetTransactionsRequest::EnumToString(const OpenAPITransactionApi::GetTransactionsRequest::OrderEnum& EnumValue)
 {
 	return ToString(EnumValue);
 }
 
-inline bool FromString(const FString& EnumAsString, OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum& Value)
+inline bool FromString(const FString& EnumAsString, OpenAPITransactionApi::GetTransactionsRequest::OrderEnum& Value)
 {
-	static TMap<FString, OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum> StringToEnum = { 
-		{ TEXT("ASC"), OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum::Asc },
-		{ TEXT("DESC"), OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum::Desc }, };
+	static TMap<FString, OpenAPITransactionApi::GetTransactionsRequest::OrderEnum> StringToEnum = { 
+		{ TEXT("ASC"), OpenAPITransactionApi::GetTransactionsRequest::OrderEnum::Asc },
+		{ TEXT("DESC"), OpenAPITransactionApi::GetTransactionsRequest::OrderEnum::Desc }, };
 
 	const auto Found = StringToEnum.Find(EnumAsString);
 	if(Found)
@@ -115,22 +115,22 @@ inline bool FromString(const FString& EnumAsString, OpenAPITransactionApi::Trans
 	return Found != nullptr;
 }
 
-bool OpenAPITransactionApi::TransactionControllerTransactionsRequest::EnumFromString(const FString& EnumAsString, OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum& EnumValue)
+bool OpenAPITransactionApi::GetTransactionsRequest::EnumFromString(const FString& EnumAsString, OpenAPITransactionApi::GetTransactionsRequest::OrderEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum& Value)
+inline FStringFormatArg ToStringFormatArg(const OpenAPITransactionApi::GetTransactionsRequest::OrderEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
 }
 
-inline void WriteJsonValue(JsonWriter& Writer, const OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum& Value)
+inline void WriteJsonValue(JsonWriter& Writer, const OpenAPITransactionApi::GetTransactionsRequest::OrderEnum& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));
 }
 
-inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPITransactionApi::TransactionControllerTransactionsRequest::OrderEnum& Value)
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPITransactionApi::GetTransactionsRequest::OrderEnum& Value)
 {
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
@@ -141,11 +141,11 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPITran
 	return false;
 }
 
-FString OpenAPITransactionApi::TransactionControllerTransactionsRequest::ComputePath() const
+FString OpenAPITransactionApi::GetTransactionsRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/transaction"));
 	TArray<FString> QueryParams;
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
 	if(CollectionId.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("collection_id=")) + ToUrlString(CollectionId.GetValue()));
@@ -180,7 +180,7 @@ FString OpenAPITransactionApi::TransactionControllerTransactionsRequest::Compute
 	return Path;
 }
 
-void OpenAPITransactionApi::TransactionControllerTransactionsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPITransactionApi::GetTransactionsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -192,7 +192,7 @@ void OpenAPITransactionApi::TransactionControllerTransactionsRequest::SetupHttpR
 
 }
 
-void OpenAPITransactionApi::TransactionControllerTransactionsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPITransactionApi::GetTransactionsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -224,7 +224,7 @@ void OpenAPITransactionApi::TransactionControllerTransactionsResponse::SetHttpRe
 	}
 }
 
-bool OpenAPITransactionApi::TransactionControllerTransactionsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPITransactionApi::GetTransactionsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return TryGetJsonValue(JsonValue, Content);
 }

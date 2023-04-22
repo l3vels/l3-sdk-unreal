@@ -23,19 +23,19 @@
 namespace OpenAPI
 {
 
-FString OpenAPIContractApi::ContractControllerCollectionSizeRequest::ComputePath() const
+FString OpenAPIContractApi::CountContractsByGameIdRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/contract/collection-size"));
 	TArray<FString> QueryParams;
 	QueryParams.Add(FString(TEXT("collection_id=")) + ToUrlString(CollectionId));
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
 	Path += TCHAR('?');
 	Path += FString::Join(QueryParams, TEXT("&"));
 
 	return Path;
 }
 
-void OpenAPIContractApi::ContractControllerCollectionSizeRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIContractApi::CountContractsByGameIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -47,13 +47,13 @@ void OpenAPIContractApi::ContractControllerCollectionSizeRequest::SetupHttpReque
 
 }
 
-void OpenAPIContractApi::ContractControllerCollectionSizeResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIContractApi::CountContractsByGameIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("Collection size"));
+		SetResponseString(TEXT("Contract size"));
 		break;
 	case 400:
 		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
@@ -79,24 +79,24 @@ void OpenAPIContractApi::ContractControllerCollectionSizeResponse::SetHttpRespon
 	}
 }
 
-bool OpenAPIContractApi::ContractControllerCollectionSizeResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIContractApi::CountContractsByGameIdResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return true;
 }
 
-FString OpenAPIContractApi::ContractControllerContractUriRequest::ComputePath() const
+FString OpenAPIContractApi::GetContractURIRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/contract/contract-uri"));
 	TArray<FString> QueryParams;
 	QueryParams.Add(FString(TEXT("collection_id=")) + ToUrlString(CollectionId));
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
 	Path += TCHAR('?');
 	Path += FString::Join(QueryParams, TEXT("&"));
 
 	return Path;
 }
 
-void OpenAPIContractApi::ContractControllerContractUriRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIContractApi::GetContractURIRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -108,7 +108,7 @@ void OpenAPIContractApi::ContractControllerContractUriRequest::SetupHttpRequest(
 
 }
 
-void OpenAPIContractApi::ContractControllerContractUriResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIContractApi::GetContractURIResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -140,18 +140,18 @@ void OpenAPIContractApi::ContractControllerContractUriResponse::SetHttpResponseC
 	}
 }
 
-bool OpenAPIContractApi::ContractControllerContractUriResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIContractApi::GetContractURIResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return true;
 }
 
-FString OpenAPIContractApi::ContractControllerSetContractUriRequest::ComputePath() const
+FString OpenAPIContractApi::SetContractURIRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/contract/contract-uri"));
 	return Path;
 }
 
-void OpenAPIContractApi::ContractControllerSetContractUriRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIContractApi::SetContractURIRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json") };
 	//static const TArray<FString> Produces = {  };
@@ -168,7 +168,7 @@ void OpenAPIContractApi::ContractControllerSetContractUriRequest::SetupHttpReque
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		WriteJsonValue(Writer, OpenAPISetContractUriDto);
+		WriteJsonValue(Writer, OpenAPISetContractUriInput);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -176,11 +176,11 @@ void OpenAPIContractApi::ContractControllerSetContractUriRequest::SetupHttpReque
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetContractUriDto) was ignored, not supported in multipart form"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetContractUriInput) was ignored, not supported in multipart form"));
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetContractUriDto) was ignored, not supported in urlencoded requests"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetContractUriInput) was ignored, not supported in urlencoded requests"));
 	}
 	else
 	{
@@ -188,7 +188,7 @@ void OpenAPIContractApi::ContractControllerSetContractUriRequest::SetupHttpReque
 	}
 }
 
-void OpenAPIContractApi::ContractControllerSetContractUriResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIContractApi::SetContractURIResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -220,18 +220,18 @@ void OpenAPIContractApi::ContractControllerSetContractUriResponse::SetHttpRespon
 	}
 }
 
-bool OpenAPIContractApi::ContractControllerSetContractUriResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIContractApi::SetContractURIResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return true;
 }
 
-FString OpenAPIContractApi::ContractControllerSetSaleStatusRequest::ComputePath() const
+FString OpenAPIContractApi::UpdateSaleStatusRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/contract/sale-status"));
 	return Path;
 }
 
-void OpenAPIContractApi::ContractControllerSetSaleStatusRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIContractApi::UpdateSaleStatusRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json") };
 	//static const TArray<FString> Produces = {  };
@@ -248,7 +248,7 @@ void OpenAPIContractApi::ContractControllerSetSaleStatusRequest::SetupHttpReques
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		WriteJsonValue(Writer, OpenAPISetSaleStatusDto);
+		WriteJsonValue(Writer, OpenAPISetSaleStatusInput);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -256,11 +256,11 @@ void OpenAPIContractApi::ContractControllerSetSaleStatusRequest::SetupHttpReques
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetSaleStatusDto) was ignored, not supported in multipart form"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetSaleStatusInput) was ignored, not supported in multipart form"));
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetSaleStatusDto) was ignored, not supported in urlencoded requests"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPISetSaleStatusInput) was ignored, not supported in urlencoded requests"));
 	}
 	else
 	{
@@ -268,7 +268,7 @@ void OpenAPIContractApi::ContractControllerSetSaleStatusRequest::SetupHttpReques
 	}
 }
 
-void OpenAPIContractApi::ContractControllerSetSaleStatusResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIContractApi::UpdateSaleStatusResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -300,7 +300,7 @@ void OpenAPIContractApi::ContractControllerSetSaleStatusResponse::SetHttpRespons
 	}
 }
 
-bool OpenAPIContractApi::ContractControllerSetSaleStatusResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIContractApi::UpdateSaleStatusResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return true;
 }

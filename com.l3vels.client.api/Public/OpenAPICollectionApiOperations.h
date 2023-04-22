@@ -31,10 +31,10 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game/project ID to count collections in */
-	FString ProjectId;
+	/* Game ID to count collections in */
+	FString GameId;
 };
 
 class OPENAPI_API OpenAPICollectionApi::CountCollectionsByGameIdResponse : public Response
@@ -58,12 +58,12 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 	/* Collection ID to find */
 	FString Id;
-	/* Game/project ID to find collection in */
-	FString ProjectId;
+	/* Game ID to find collection in */
+	FString GameId;
 };
 
 class OPENAPI_API OpenAPICollectionApi::GetCollectionByIdResponse : public Response
@@ -87,10 +87,10 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game/project ID to find collections in your game. Example: Fortnite, Minecraft, etc. */
-	FString ProjectId;
+	/* Game ID to find collections in your game. Example: Fortnite, Minecraft, etc. */
+	FString GameId;
 	/* Collection field to sort by. You can sort by name, created_on and etc. */
 	TOptional<FString> Sort;
 	/* Sort order (ASC for ascending or DESC for descending) */

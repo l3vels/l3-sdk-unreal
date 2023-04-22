@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-#include "OpenAPICollection.h"
+#include "OpenAPIGame.h"
 
 #include "OpenAPIModule.h"
 #include "OpenAPIHelpers.h"
@@ -20,26 +20,26 @@
 namespace OpenAPI
 {
 
-void OpenAPICollection::WriteJson(JsonWriter& Writer) const
+void OpenAPIGame::WriteJson(JsonWriter& Writer) const
 {
 	Writer->WriteObjectStart();
 	Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id);
-	Writer->WriteIdentifierPrefix(TEXT("unique_id")); WriteJsonValue(Writer, UniqueId);
 	Writer->WriteIdentifierPrefix(TEXT("name")); WriteJsonValue(Writer, Name);
 	Writer->WriteIdentifierPrefix(TEXT("description")); WriteJsonValue(Writer, Description);
+	Writer->WriteIdentifierPrefix(TEXT("category")); WriteJsonValue(Writer, Category);
 	Writer->WriteIdentifierPrefix(TEXT("logo_image")); WriteJsonValue(Writer, LogoImage);
 	Writer->WriteIdentifierPrefix(TEXT("medias")); WriteJsonValue(Writer, Medias);
+	Writer->WriteIdentifierPrefix(TEXT("social_links")); WriteJsonValue(Writer, SocialLinks);
 	Writer->WriteIdentifierPrefix(TEXT("main_media")); WriteJsonValue(Writer, MainMedia);
 	Writer->WriteIdentifierPrefix(TEXT("url")); WriteJsonValue(Writer, Url);
 	Writer->WriteIdentifierPrefix(TEXT("web_link")); WriteJsonValue(Writer, WebLink);
-	Writer->WriteIdentifierPrefix(TEXT("supply")); WriteJsonValue(Writer, Supply);
-	Writer->WriteIdentifierPrefix(TEXT("custom_property_props")); WriteJsonValue(Writer, CustomPropertyProps);
-	Writer->WriteIdentifierPrefix(TEXT("social_links")); WriteJsonValue(Writer, SocialLinks);
-	Writer->WriteIdentifierPrefix(TEXT("custom_asset_props")); WriteJsonValue(Writer, CustomAssetProps);
-	Writer->WriteIdentifierPrefix(TEXT("categories")); WriteJsonValue(Writer, Categories);
+	Writer->WriteIdentifierPrefix(TEXT("discord")); WriteJsonValue(Writer, Discord);
+	Writer->WriteIdentifierPrefix(TEXT("twitter")); WriteJsonValue(Writer, Twitter);
+	Writer->WriteIdentifierPrefix(TEXT("instagram")); WriteJsonValue(Writer, Instagram);
+	Writer->WriteIdentifierPrefix(TEXT("contact_phone")); WriteJsonValue(Writer, ContactPhone);
+	Writer->WriteIdentifierPrefix(TEXT("contact_email")); WriteJsonValue(Writer, ContactEmail);
 	Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status);
 	Writer->WriteIdentifierPrefix(TEXT("account_id")); WriteJsonValue(Writer, AccountId);
-	Writer->WriteIdentifierPrefix(TEXT("game_id")); WriteJsonValue(Writer, GameId);
 	Writer->WriteIdentifierPrefix(TEXT("created_on")); WriteJsonValue(Writer, CreatedOn);
 	Writer->WriteIdentifierPrefix(TEXT("modified_on")); WriteJsonValue(Writer, ModifiedOn);
 	Writer->WriteIdentifierPrefix(TEXT("created_by")); WriteJsonValue(Writer, CreatedBy);
@@ -47,7 +47,7 @@ void OpenAPICollection::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectEnd();
 }
 
-bool OpenAPICollection::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIGame::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	const TSharedPtr<FJsonObject>* Object;
 	if (!JsonValue->TryGetObject(Object))
@@ -56,22 +56,22 @@ bool OpenAPICollection::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 	bool ParseSuccess = true;
 
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("id"), Id);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("unique_id"), UniqueId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("name"), Name);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("description"), Description);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("category"), Category);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("logo_image"), LogoImage);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("medias"), Medias);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("social_links"), SocialLinks);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("main_media"), MainMedia);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("url"), Url);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("web_link"), WebLink);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("supply"), Supply);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("custom_property_props"), CustomPropertyProps);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("social_links"), SocialLinks);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("custom_asset_props"), CustomAssetProps);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("categories"), Categories);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("discord"), Discord);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("twitter"), Twitter);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("instagram"), Instagram);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("contact_phone"), ContactPhone);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("contact_email"), ContactEmail);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("status"), Status);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("account_id"), AccountId);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("game_id"), GameId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("created_on"), CreatedOn);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("modified_on"), ModifiedOn);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("created_by"), CreatedBy);

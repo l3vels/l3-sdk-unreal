@@ -46,17 +46,17 @@ public:
 	/* The date when player was active last time */
 	FDateTime LastSeen;
 	/* The unique identifier of the account that the Player belongs to. */
-	double AccountId;
-	/* The unique identifier of the project that the Player is associated with. This allows developers to organize their players by project and helps with tracking and reporting. Example: Player Jack is associated with project Fortnite. */
-	FString ProjectId;
+	FString AccountId;
+	/* The unique identifier of the game that the Player is associated with. This allows developers to organize their players by game and helps with tracking and reporting. Example: Player Jack is associated with game Fortnite. */
+	FString GameId;
 	/* The date when the player was created. */
 	FDateTime CreatedOn;
 	/* The date when the player was last modified. */
 	FDateTime ModifiedOn;
 	/* The Id of the user who created the player. */
-	double CreatedBy;
+	FString CreatedBy;
 	/* The Id of the user who last modified the player. */
-	double ModifiedBy;
+	FString ModifiedBy;
 	/* Boolean value indicating whether the player has wallet or not */
 	bool IsCreateWallet = false;
 };

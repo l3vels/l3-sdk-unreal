@@ -38,7 +38,7 @@ void OpenAPITransaction::WriteJson(JsonWriter& Writer) const
 	Writer->WriteIdentifierPrefix(TEXT("type")); WriteJsonValue(Writer, Type);
 	Writer->WriteIdentifierPrefix(TEXT("method")); WriteJsonValue(Writer, Method);
 	Writer->WriteIdentifierPrefix(TEXT("events")); WriteJsonValue(Writer, Events);
-	Writer->WriteIdentifierPrefix(TEXT("project_id")); WriteJsonValue(Writer, ProjectId);
+	Writer->WriteIdentifierPrefix(TEXT("game_id")); WriteJsonValue(Writer, GameId);
 	Writer->WriteIdentifierPrefix(TEXT("collection_id")); WriteJsonValue(Writer, CollectionId);
 	Writer->WriteIdentifierPrefix(TEXT("account_id")); WriteJsonValue(Writer, AccountId);
 	Writer->WriteIdentifierPrefix(TEXT("created_on")); WriteJsonValue(Writer, CreatedOn);
@@ -71,7 +71,7 @@ bool OpenAPITransaction::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("type"), Type);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("method"), Method);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("events"), Events);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("project_id"), ProjectId);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("game_id"), GameId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("collection_id"), CollectionId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("account_id"), AccountId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("created_on"), CreatedOn);

@@ -24,23 +24,23 @@ namespace OpenAPI
  *
  * Retrieve transaction by ID
 */
-class OPENAPI_API OpenAPITransactionApi::TransactionControllerTransactionByIdRequest : public Request
+class OPENAPI_API OpenAPITransactionApi::GetTransactionByIdRequest : public Request
 {
 public:
-    virtual ~TransactionControllerTransactionByIdRequest() {}
+    virtual ~GetTransactionByIdRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 	FString Id;
-	FString ProjectId;
+	FString GameId;
 };
 
-class OPENAPI_API OpenAPITransactionApi::TransactionControllerTransactionByIdResponse : public Response
+class OPENAPI_API OpenAPITransactionApi::GetTransactionByIdResponse : public Response
 {
 public:
-    virtual ~TransactionControllerTransactionByIdResponse() {}
+    virtual ~GetTransactionByIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -51,17 +51,17 @@ public:
  *
  * Retrieve all transactions.
 */
-class OPENAPI_API OpenAPITransactionApi::TransactionControllerTransactionsRequest : public Request
+class OPENAPI_API OpenAPITransactionApi::GetTransactionsRequest : public Request
 {
 public:
-    virtual ~TransactionControllerTransactionsRequest() {}
+    virtual ~GetTransactionsRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game/project ID to find transactions in your game. Example: Fortnite, Minecraft, etc. */
-	FString ProjectId;
+	/* Game ID to find transactions in your game. Example: Fortnite, Minecraft, etc. */
+	FString GameId;
 	/* Filter transactions by collection. Example: Get transactions only from Weapons collection. */
 	TOptional<FString> CollectionId;
 	/* Player ID to mint to. You can provide player ID or player address */
@@ -86,10 +86,10 @@ public:
 	TOptional<double> Page;
 };
 
-class OPENAPI_API OpenAPITransactionApi::TransactionControllerTransactionsResponse : public Response
+class OPENAPI_API OpenAPITransactionApi::GetTransactionsResponse : public Response
 {
 public:
-    virtual ~TransactionControllerTransactionsResponse() {}
+    virtual ~GetTransactionsResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
@@ -106,7 +106,7 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
 };
 

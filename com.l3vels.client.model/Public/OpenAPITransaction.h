@@ -59,20 +59,20 @@ public:
 	FString Method;
 	/* List of events that were emitted in the transaction */
 	TArray<FString> Events;
-	/* The unique identifier of the project that the transaction is associated with. This allows developers to organize their transactions by project and helps with tracking and reporting. */
-	FString ProjectId;
-	/* The unique identifier of the collection that the transaction is associated with. This allows developers to organize their transactions by project and helps with tracking and reporting. */
+	/* The unique identifier of the game that the transaction is associated with. This allows developers to organize their transactions by game and helps with tracking and reporting. */
+	FString GameId;
+	/* The unique identifier of the collection that the transaction is associated with. This allows developers to organize their transactions by game and helps with tracking and reporting. */
 	FString CollectionId;
 	/* The unique identifier of the account that the transaction belongs to. */
-	double AccountId;
+	FString AccountId;
 	/* The date when the collection was created. */
 	FDateTime CreatedOn;
 	/* The date when the collection was last modified. */
 	FDateTime ModifiedOn;
 	/* The Id of the user who created the collection. */
-	double CreatedBy;
+	FString CreatedBy;
 	/* The Id of the user who last modified the collection. */
-	double ModifiedBy;
+	FString ModifiedBy;
 };
 
 }

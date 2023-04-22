@@ -133,7 +133,7 @@ void OpenAPITransactionApi::HandleResponse(FHttpResponsePtr HttpResponse, bool b
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-FHttpRequestPtr OpenAPITransactionApi::TransactionControllerTransactionById(const TransactionControllerTransactionByIdRequest& Request, const FTransactionControllerTransactionByIdDelegate& Delegate /*= FTransactionControllerTransactionByIdDelegate()*/) const
+FHttpRequestPtr OpenAPITransactionApi::GetTransactionById(const GetTransactionByIdRequest& Request, const FGetTransactionByIdDelegate& Delegate /*= FGetTransactionByIdDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -148,19 +148,19 @@ FHttpRequestPtr OpenAPITransactionApi::TransactionControllerTransactionById(cons
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPITransactionApi::OnTransactionControllerTransactionByIdResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPITransactionApi::OnGetTransactionByIdResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPITransactionApi::OnTransactionControllerTransactionByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FTransactionControllerTransactionByIdDelegate Delegate) const
+void OpenAPITransactionApi::OnGetTransactionByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionByIdDelegate Delegate) const
 {
-	TransactionControllerTransactionByIdResponse Response;
+	GetTransactionByIdResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPITransactionApi::TransactionControllerTransactions(const TransactionControllerTransactionsRequest& Request, const FTransactionControllerTransactionsDelegate& Delegate /*= FTransactionControllerTransactionsDelegate()*/) const
+FHttpRequestPtr OpenAPITransactionApi::GetTransactions(const GetTransactionsRequest& Request, const FGetTransactionsDelegate& Delegate /*= FGetTransactionsDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -175,14 +175,14 @@ FHttpRequestPtr OpenAPITransactionApi::TransactionControllerTransactions(const T
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPITransactionApi::OnTransactionControllerTransactionsResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPITransactionApi::OnGetTransactionsResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPITransactionApi::OnTransactionControllerTransactionsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FTransactionControllerTransactionsDelegate Delegate) const
+void OpenAPITransactionApi::OnGetTransactionsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionsDelegate Delegate) const
 {
-	TransactionControllerTransactionsResponse Response;
+	GetTransactionsResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

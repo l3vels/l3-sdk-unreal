@@ -60,19 +60,19 @@ public:
 	/* The main or featured image associated with the asset. You can set it from the Dashboard as main image. */
 	FString MainMedia;
 	/* The unique identifier of the account that the Collection belongs to. */
-	double AccountId;
-	/* The unique identifier of the project that the asset is associated with. This allows developers to organize their assets by project and helps with tracking and reporting. */
-	FString ProjectId;
-	/* The unique identifier of the collection that the asset is associated with. This allows developers to organize their collections by project and helps with tracking and reporting. */
+	FString AccountId;
+	/* The unique identifier of the game that the asset is associated with. This allows developers to organize their assets by game and helps with tracking and reporting. */
+	FString GameId;
+	/* The unique identifier of the collection that the asset is associated with. This allows developers to organize their collections by game and helps with tracking and reporting. */
 	FString CollectionId;
 	/* The date when the collection was created. */
 	FDateTime CreatedOn;
 	/* The date when the collection was last modified. */
 	FDateTime ModifiedOn;
 	/* The Id of the user who created the collection. */
-	double CreatedBy;
+	FString CreatedBy;
 	/* The Id of the user who last modified the collection. */
-	double ModifiedBy;
+	FString ModifiedBy;
 };
 
 }

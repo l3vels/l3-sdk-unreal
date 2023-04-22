@@ -15,14 +15,14 @@
 #include "OpenAPIBaseModel.h"
 #include "OpenAPIGameApi.h"
 
-#include "com.l3vels.client.model/OpenAPIProject.h"
+#include "com.l3vels.client.model/OpenAPIGame.h"
 
 namespace OpenAPI
 {
 
 /* Retrieve Game
  *
- * Get game/project by ID created on the platform.
+ * Get Game by ID created on the platform.
 */
 class OPENAPI_API OpenAPIGameApi::GetGameByIdRequest : public Request
 {
@@ -31,9 +31,9 @@ public:
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
 
-	/* API key is associated with multiple projects. Please include it in to use developers API. */
+	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game or Project Id */
+	/* Game or Game Id */
 	FString Id;
 };
 
@@ -44,7 +44,7 @@ public:
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
-    OpenAPIProject Content;
+    OpenAPIGame Content;
 };
 
 }

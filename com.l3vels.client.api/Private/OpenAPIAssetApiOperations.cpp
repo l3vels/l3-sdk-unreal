@@ -26,9 +26,9 @@ namespace OpenAPI
 FString OpenAPIAssetApi::CountByGameRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/asset/count/{project_id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/asset/count/{game_id}"), PathParams);
 
 	return Path;
 }
@@ -86,9 +86,9 @@ FString OpenAPIAssetApi::GetAssetByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
 	{ TEXT("id"), ToStringFormatArg(Id) },
-	{ TEXT("project_id"), ToStringFormatArg(ProjectId) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/asset/{project_id}/{id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/asset/{game_id}/{id}"), PathParams);
 
 	return Path;
 }
@@ -204,7 +204,7 @@ FString OpenAPIAssetApi::GetAssetsRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/asset"));
 	TArray<FString> QueryParams;
-	QueryParams.Add(FString(TEXT("project_id=")) + ToUrlString(ProjectId));
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
 	if(CollectionId.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("collection_id=")) + ToUrlString(CollectionId.GetValue()));
@@ -311,7 +311,7 @@ void OpenAPIAssetApi::UpdateAssetRequest::SetupHttpRequest(const FHttpRequestRef
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		WriteJsonValue(Writer, OpenAPIUpdateAssetDto);
+		WriteJsonValue(Writer, OpenAPIUpdateAssetInput);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -319,11 +319,11 @@ void OpenAPIAssetApi::UpdateAssetRequest::SetupHttpRequest(const FHttpRequestRef
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIUpdateAssetDto) was ignored, not supported in multipart form"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIUpdateAssetInput) was ignored, not supported in multipart form"));
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIUpdateAssetDto) was ignored, not supported in urlencoded requests"));
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (OpenAPIUpdateAssetInput) was ignored, not supported in urlencoded requests"));
 	}
 	else
 	{

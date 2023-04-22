@@ -38,40 +38,40 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
-	class MintControllerAirdropRequest;
-	class MintControllerAirdropResponse;
-	class MintControllerAwardRequest;
-	class MintControllerAwardResponse;
-	class MintControllerMintRequest;
-	class MintControllerMintResponse;
-	class MintControllerMintBatchRequest;
-	class MintControllerMintBatchResponse;
-	class MintControllerPlayerMintRequest;
-	class MintControllerPlayerMintResponse;
-	class MintControllerPlayerMintBatchRequest;
-	class MintControllerPlayerMintBatchResponse;
+	class AirdropAssetToPlayerRequest;
+	class AirdropAssetToPlayerResponse;
+	class AwardAssetToPlayerRequest;
+	class AwardAssetToPlayerResponse;
+	class BatchMintAssetByPlayerRequest;
+	class BatchMintAssetByPlayerResponse;
+	class MintAssetRequest;
+	class MintAssetResponse;
+	class MintAssetByPlayerRequest;
+	class MintAssetByPlayerResponse;
+	class MintBatchAssetRequest;
+	class MintBatchAssetResponse;
 	
-    DECLARE_DELEGATE_OneParam(FMintControllerAirdropDelegate, const MintControllerAirdropResponse&);
-    DECLARE_DELEGATE_OneParam(FMintControllerAwardDelegate, const MintControllerAwardResponse&);
-    DECLARE_DELEGATE_OneParam(FMintControllerMintDelegate, const MintControllerMintResponse&);
-    DECLARE_DELEGATE_OneParam(FMintControllerMintBatchDelegate, const MintControllerMintBatchResponse&);
-    DECLARE_DELEGATE_OneParam(FMintControllerPlayerMintDelegate, const MintControllerPlayerMintResponse&);
-    DECLARE_DELEGATE_OneParam(FMintControllerPlayerMintBatchDelegate, const MintControllerPlayerMintBatchResponse&);
+    DECLARE_DELEGATE_OneParam(FAirdropAssetToPlayerDelegate, const AirdropAssetToPlayerResponse&);
+    DECLARE_DELEGATE_OneParam(FAwardAssetToPlayerDelegate, const AwardAssetToPlayerResponse&);
+    DECLARE_DELEGATE_OneParam(FBatchMintAssetByPlayerDelegate, const BatchMintAssetByPlayerResponse&);
+    DECLARE_DELEGATE_OneParam(FMintAssetDelegate, const MintAssetResponse&);
+    DECLARE_DELEGATE_OneParam(FMintAssetByPlayerDelegate, const MintAssetByPlayerResponse&);
+    DECLARE_DELEGATE_OneParam(FMintBatchAssetDelegate, const MintBatchAssetResponse&);
     
-    FHttpRequestPtr MintControllerAirdrop(const MintControllerAirdropRequest& Request, const FMintControllerAirdropDelegate& Delegate = FMintControllerAirdropDelegate()) const;
-    FHttpRequestPtr MintControllerAward(const MintControllerAwardRequest& Request, const FMintControllerAwardDelegate& Delegate = FMintControllerAwardDelegate()) const;
-    FHttpRequestPtr MintControllerMint(const MintControllerMintRequest& Request, const FMintControllerMintDelegate& Delegate = FMintControllerMintDelegate()) const;
-    FHttpRequestPtr MintControllerMintBatch(const MintControllerMintBatchRequest& Request, const FMintControllerMintBatchDelegate& Delegate = FMintControllerMintBatchDelegate()) const;
-    FHttpRequestPtr MintControllerPlayerMint(const MintControllerPlayerMintRequest& Request, const FMintControllerPlayerMintDelegate& Delegate = FMintControllerPlayerMintDelegate()) const;
-    FHttpRequestPtr MintControllerPlayerMintBatch(const MintControllerPlayerMintBatchRequest& Request, const FMintControllerPlayerMintBatchDelegate& Delegate = FMintControllerPlayerMintBatchDelegate()) const;
+    FHttpRequestPtr AirdropAssetToPlayer(const AirdropAssetToPlayerRequest& Request, const FAirdropAssetToPlayerDelegate& Delegate = FAirdropAssetToPlayerDelegate()) const;
+    FHttpRequestPtr AwardAssetToPlayer(const AwardAssetToPlayerRequest& Request, const FAwardAssetToPlayerDelegate& Delegate = FAwardAssetToPlayerDelegate()) const;
+    FHttpRequestPtr BatchMintAssetByPlayer(const BatchMintAssetByPlayerRequest& Request, const FBatchMintAssetByPlayerDelegate& Delegate = FBatchMintAssetByPlayerDelegate()) const;
+    FHttpRequestPtr MintAsset(const MintAssetRequest& Request, const FMintAssetDelegate& Delegate = FMintAssetDelegate()) const;
+    FHttpRequestPtr MintAssetByPlayer(const MintAssetByPlayerRequest& Request, const FMintAssetByPlayerDelegate& Delegate = FMintAssetByPlayerDelegate()) const;
+    FHttpRequestPtr MintBatchAsset(const MintBatchAssetRequest& Request, const FMintBatchAssetDelegate& Delegate = FMintBatchAssetDelegate()) const;
     
 private:
-    void OnMintControllerAirdropResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerAirdropDelegate Delegate) const;
-    void OnMintControllerAwardResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerAwardDelegate Delegate) const;
-    void OnMintControllerMintResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerMintDelegate Delegate) const;
-    void OnMintControllerMintBatchResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerMintBatchDelegate Delegate) const;
-    void OnMintControllerPlayerMintResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerPlayerMintDelegate Delegate) const;
-    void OnMintControllerPlayerMintBatchResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintControllerPlayerMintBatchDelegate Delegate) const;
+    void OnAirdropAssetToPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAirdropAssetToPlayerDelegate Delegate) const;
+    void OnAwardAssetToPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAwardAssetToPlayerDelegate Delegate) const;
+    void OnBatchMintAssetByPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FBatchMintAssetByPlayerDelegate Delegate) const;
+    void OnMintAssetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintAssetDelegate Delegate) const;
+    void OnMintAssetByPlayerResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintAssetByPlayerDelegate Delegate) const;
+    void OnMintBatchAssetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMintBatchAssetDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;
