@@ -26,9 +26,9 @@ namespace OpenAPI
 FString OpenAPIGameApi::GetGameByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("id"), ToStringFormatArg(Id) } };
+	{ TEXT("game_id"), ToStringFormatArg(GameId) } };
 
-	FString Path = FString::Format(TEXT("/v1/game/{id}"), PathParams);
+	FString Path = FString::Format(TEXT("/v1/game/{game_id}"), PathParams);
 
 	return Path;
 }

@@ -23,10 +23,6 @@ namespace OpenAPI
 void OpenAPIMintInput::WriteJson(JsonWriter& Writer) const
 {
 	Writer->WriteObjectStart();
-	if (ContractId.IsSet())
-	{
-		Writer->WriteIdentifierPrefix(TEXT("contract_id")); WriteJsonValue(Writer, ContractId.GetValue());
-	}
 	Writer->WriteIdentifierPrefix(TEXT("game_id")); WriteJsonValue(Writer, GameId);
 	Writer->WriteIdentifierPrefix(TEXT("collection_id")); WriteJsonValue(Writer, CollectionId);
 	if (PlayerAddress.IsSet())
@@ -49,7 +45,6 @@ bool OpenAPIMintInput::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 
 	bool ParseSuccess = true;
 
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("contract_id"), ContractId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("game_id"), GameId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("collection_id"), CollectionId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("player_address"), PlayerAddress);

@@ -33,8 +33,8 @@ public:
 
 	/* API key is associated with multiple games. Please include it in to use developers API. */
 	FString Authorization;
-	/* Game or Game Id */
-	FString Id;
+	/* Game ID */
+	FString GameId;
 };
 
 class OPENAPI_API OpenAPIGameApi::GetGameByIdResponse : public Response

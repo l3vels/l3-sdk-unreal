@@ -30,8 +30,6 @@ public:
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
-	/* Contract ID */
-	TOptional<FString> ContractId;
 	/* Game ID. Example: Call of Duty */
 	FString GameId;
 	/* Collection ID to use. Example: Characters, Weapons, etc. */
