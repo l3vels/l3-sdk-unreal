@@ -29,6 +29,8 @@ void OpenAPIAsset::WriteJson(JsonWriter& Writer) const
 	Writer->WriteIdentifierPrefix(TEXT("parent_id")); WriteJsonValue(Writer, ParentId);
 	Writer->WriteIdentifierPrefix(TEXT("properties")); WriteJsonValue(Writer, Properties);
 	Writer->WriteIdentifierPrefix(TEXT("attributes")); WriteJsonValue(Writer, Attributes);
+	Writer->WriteIdentifierPrefix(TEXT("achievements")); WriteJsonValue(Writer, Achievements);
+	Writer->WriteIdentifierPrefix(TEXT("rewards")); WriteJsonValue(Writer, Rewards);
 	Writer->WriteIdentifierPrefix(TEXT("description")); WriteJsonValue(Writer, Description);
 	Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status);
 	Writer->WriteIdentifierPrefix(TEXT("price")); WriteJsonValue(Writer, Price);
@@ -62,6 +64,8 @@ bool OpenAPIAsset::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("parent_id"), ParentId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("properties"), Properties);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("attributes"), Attributes);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("achievements"), Achievements);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("rewards"), Rewards);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("description"), Description);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("status"), Status);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("price"), Price);
