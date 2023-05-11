@@ -38,7 +38,7 @@ public:
 	/* ID of the parent asset. */
 	FString ParentId;
 	/* Custom properties of the asset. */
-	FString Properties;
+	TArray<FString> Properties;
 	/* Custom attributes of the asset. */
 	TSharedPtr<FJsonObject> Attributes;
 	/* Achievements of the asset. */
