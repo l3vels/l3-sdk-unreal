@@ -96,28 +96,4 @@ public:
     OpenAPITransaction Content;
 };
 
-/* 
-
-*/
-class OPENAPI_API OpenAPITransactionApi::TransactionControllerWebhookRequest : public Request
-{
-public:
-    virtual ~TransactionControllerWebhookRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-
-	/* API key is associated with multiple games. Please include it in to use developers API. */
-	FString Authorization;
-};
-
-class OPENAPI_API OpenAPITransactionApi::TransactionControllerWebhookResponse : public Response
-{
-public:
-    virtual ~TransactionControllerWebhookResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-
-    
-};
-
 }

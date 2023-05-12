@@ -42,21 +42,16 @@ public:
 	class GetTransactionByIdResponse;
 	class GetTransactionsRequest;
 	class GetTransactionsResponse;
-	class TransactionControllerWebhookRequest;
-	class TransactionControllerWebhookResponse;
 	
     DECLARE_DELEGATE_OneParam(FGetTransactionByIdDelegate, const GetTransactionByIdResponse&);
     DECLARE_DELEGATE_OneParam(FGetTransactionsDelegate, const GetTransactionsResponse&);
-    DECLARE_DELEGATE_OneParam(FTransactionControllerWebhookDelegate, const TransactionControllerWebhookResponse&);
     
     FHttpRequestPtr GetTransactionById(const GetTransactionByIdRequest& Request, const FGetTransactionByIdDelegate& Delegate = FGetTransactionByIdDelegate()) const;
     FHttpRequestPtr GetTransactions(const GetTransactionsRequest& Request, const FGetTransactionsDelegate& Delegate = FGetTransactionsDelegate()) const;
-    FHttpRequestPtr TransactionControllerWebhook(const TransactionControllerWebhookRequest& Request, const FTransactionControllerWebhookDelegate& Delegate = FTransactionControllerWebhookDelegate()) const;
     
 private:
     void OnGetTransactionByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionByIdDelegate Delegate) const;
     void OnGetTransactionsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionsDelegate Delegate) const;
-    void OnTransactionControllerWebhookResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FTransactionControllerWebhookDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;
