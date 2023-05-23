@@ -11,6 +11,8 @@ com.l3vels.client.api/Private/OpenAPICollectionApi.cpp
 com.l3vels.client.api/Private/OpenAPICollectionApiOperations.cpp
 com.l3vels.client.api/Private/OpenAPIContractApi.cpp
 com.l3vels.client.api/Private/OpenAPIContractApiOperations.cpp
+com.l3vels.client.api/Private/OpenAPIDefaultApi.cpp
+com.l3vels.client.api/Private/OpenAPIDefaultApiOperations.cpp
 com.l3vels.client.api/Private/OpenAPIGameApi.cpp
 com.l3vels.client.api/Private/OpenAPIGameApiOperations.cpp
 com.l3vels.client.api/Private/OpenAPIMintApi.cpp
@@ -27,6 +29,8 @@ com.l3vels.client.api/Public/OpenAPICollectionApi.h
 com.l3vels.client.api/Public/OpenAPICollectionApiOperations.h
 com.l3vels.client.api/Public/OpenAPIContractApi.h
 com.l3vels.client.api/Public/OpenAPIContractApiOperations.h
+com.l3vels.client.api/Public/OpenAPIDefaultApi.h
+com.l3vels.client.api/Public/OpenAPIDefaultApiOperations.h
 com.l3vels.client.api/Public/OpenAPIGameApi.h
 com.l3vels.client.api/Public/OpenAPIGameApiOperations.h
 com.l3vels.client.api/Public/OpenAPIMintApi.h
