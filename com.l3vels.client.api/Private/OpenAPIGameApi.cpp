@@ -133,6 +133,60 @@ void OpenAPIGameApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceed
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
+FHttpRequestPtr OpenAPIGameApi::CreateGame(const CreateGameRequest& Request, const FCreateGameDelegate& Delegate /*= FCreateGameDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIGameApi::OnCreateGameResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIGameApi::OnCreateGameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateGameDelegate Delegate) const
+{
+	CreateGameResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
+FHttpRequestPtr OpenAPIGameApi::GameControllerGetGames(const GameControllerGetGamesRequest& Request, const FGameControllerGetGamesDelegate& Delegate /*= FGameControllerGetGamesDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIGameApi::OnGameControllerGetGamesResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIGameApi::OnGameControllerGetGamesResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGameControllerGetGamesDelegate Delegate) const
+{
+	GameControllerGetGamesResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
 FHttpRequestPtr OpenAPIGameApi::GetGameById(const GetGameByIdRequest& Request, const FGetGameByIdDelegate& Delegate /*= FGetGameByIdDelegate()*/) const
 {
 	if (!IsValid())

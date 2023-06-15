@@ -23,6 +23,162 @@
 namespace OpenAPI
 {
 
+FString OpenAPIGameApi::CreateGameRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/game"));
+	return Path;
+}
+
+void OpenAPIGameApi::CreateGameRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = { TEXT("application/json") };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("POST"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+		// Body parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+
+		WriteJsonValue(Writer, Body);
+		Writer->Close();
+
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (body) was ignored, not supported in multipart form"));
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Body parameter (body) was ignored, not supported in urlencoded requests"));
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIGameApi::CreateGameResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The Game has been found."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIGameApi::CreateGameResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
+FString OpenAPIGameApi::GameControllerGetGamesRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/game"));
+	TArray<FString> QueryParams;
+	if(Sort.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("sort=")) + ToUrlString(Sort.GetValue()));
+	}
+	if(SearchText.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("search_text=")) + ToUrlString(SearchText.GetValue()));
+	}
+	if(Limit.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("limit=")) + ToUrlString(Limit.GetValue()));
+	}
+	if(Page.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("page=")) + ToUrlString(Page.GetValue()));
+	}
+	QueryParams.Add(FString(TEXT("game_id=")) + ToUrlString(GameId));
+	Path += TCHAR('?');
+	Path += FString::Join(QueryParams, TEXT("&"));
+
+	return Path;
+}
+
+void OpenAPIGameApi::GameControllerGetGamesRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+}
+
+void OpenAPIGameApi::GameControllerGetGamesResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The games has been found."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIGameApi::GameControllerGetGamesResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
 FString OpenAPIGameApi::GetGameByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 

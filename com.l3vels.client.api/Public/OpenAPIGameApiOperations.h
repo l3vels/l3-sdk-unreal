@@ -20,6 +20,67 @@
 namespace OpenAPI
 {
 
+/* Create Game
+ *
+ * Create game on platform.
+*/
+class OPENAPI_API OpenAPIGameApi::CreateGameRequest : public Request
+{
+public:
+    virtual ~CreateGameRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	TSharedPtr<FJsonObject> Body;
+};
+
+class OPENAPI_API OpenAPIGameApi::CreateGameResponse : public Response
+{
+public:
+    virtual ~CreateGameResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPIGame Content;
+};
+
+/* Retrieve all games
+ *
+ * Retrieve all your games/games created on the platform. You can filter games by name, description. You can sort games by field
+*/
+class OPENAPI_API OpenAPIGameApi::GameControllerGetGamesRequest : public Request
+{
+public:
+    virtual ~GameControllerGetGamesRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	/* Game ID */
+	FString GameId;
+	/* In which order to sort the results. Can be ASC for ascending or DESC for descending order */
+	TOptional<FString> Sort;
+	/* Filter by game name or description */
+	TOptional<FString> SearchText;
+	/* Number of players to return per page */
+	TOptional<double> Limit;
+	/* Page number */
+	TOptional<double> Page;
+};
+
+class OPENAPI_API OpenAPIGameApi::GameControllerGetGamesResponse : public Response
+{
+public:
+    virtual ~GameControllerGetGamesResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPIGame Content;
+};
+
 /* Retrieve Game
  *
  * Get Game by ID created on the platform.

@@ -38,6 +38,8 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
+	class CollectionControllerCreateCollectionRequest;
+	class CollectionControllerCreateCollectionResponse;
 	class CountCollectionsByGameIdRequest;
 	class CountCollectionsByGameIdResponse;
 	class GetCollectionByIdRequest;
@@ -45,15 +47,18 @@ public:
 	class GetCollectionsRequest;
 	class GetCollectionsResponse;
 	
+    DECLARE_DELEGATE_OneParam(FCollectionControllerCreateCollectionDelegate, const CollectionControllerCreateCollectionResponse&);
     DECLARE_DELEGATE_OneParam(FCountCollectionsByGameIdDelegate, const CountCollectionsByGameIdResponse&);
     DECLARE_DELEGATE_OneParam(FGetCollectionByIdDelegate, const GetCollectionByIdResponse&);
     DECLARE_DELEGATE_OneParam(FGetCollectionsDelegate, const GetCollectionsResponse&);
     
+    FHttpRequestPtr CollectionControllerCreateCollection(const CollectionControllerCreateCollectionRequest& Request, const FCollectionControllerCreateCollectionDelegate& Delegate = FCollectionControllerCreateCollectionDelegate()) const;
     FHttpRequestPtr CountCollectionsByGameId(const CountCollectionsByGameIdRequest& Request, const FCountCollectionsByGameIdDelegate& Delegate = FCountCollectionsByGameIdDelegate()) const;
     FHttpRequestPtr GetCollectionById(const GetCollectionByIdRequest& Request, const FGetCollectionByIdDelegate& Delegate = FGetCollectionByIdDelegate()) const;
     FHttpRequestPtr GetCollections(const GetCollectionsRequest& Request, const FGetCollectionsDelegate& Delegate = FGetCollectionsDelegate()) const;
     
 private:
+    void OnCollectionControllerCreateCollectionResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCollectionControllerCreateCollectionDelegate Delegate) const;
     void OnCountCollectionsByGameIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCountCollectionsByGameIdDelegate Delegate) const;
     void OnGetCollectionByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCollectionByIdDelegate Delegate) const;
     void OnGetCollectionsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCollectionsDelegate Delegate) const;

@@ -38,14 +38,24 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
+	class CreateGameRequest;
+	class CreateGameResponse;
+	class GameControllerGetGamesRequest;
+	class GameControllerGetGamesResponse;
 	class GetGameByIdRequest;
 	class GetGameByIdResponse;
 	
+    DECLARE_DELEGATE_OneParam(FCreateGameDelegate, const CreateGameResponse&);
+    DECLARE_DELEGATE_OneParam(FGameControllerGetGamesDelegate, const GameControllerGetGamesResponse&);
     DECLARE_DELEGATE_OneParam(FGetGameByIdDelegate, const GetGameByIdResponse&);
     
+    FHttpRequestPtr CreateGame(const CreateGameRequest& Request, const FCreateGameDelegate& Delegate = FCreateGameDelegate()) const;
+    FHttpRequestPtr GameControllerGetGames(const GameControllerGetGamesRequest& Request, const FGameControllerGetGamesDelegate& Delegate = FGameControllerGetGamesDelegate()) const;
     FHttpRequestPtr GetGameById(const GetGameByIdRequest& Request, const FGetGameByIdDelegate& Delegate = FGetGameByIdDelegate()) const;
     
 private:
+    void OnCreateGameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateGameDelegate Delegate) const;
+    void OnGameControllerGetGamesResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGameControllerGetGamesDelegate Delegate) const;
     void OnGetGameByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameByIdDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;

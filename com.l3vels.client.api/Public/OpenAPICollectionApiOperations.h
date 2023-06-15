@@ -20,6 +20,32 @@
 namespace OpenAPI
 {
 
+/* Create a new collection inside specific game
+ *
+ * This API method creates collection in a specified game
+*/
+class OPENAPI_API OpenAPICollectionApi::CollectionControllerCreateCollectionRequest : public Request
+{
+public:
+    virtual ~CollectionControllerCreateCollectionRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	TSharedPtr<FJsonObject> Body;
+};
+
+class OPENAPI_API OpenAPICollectionApi::CollectionControllerCreateCollectionResponse : public Response
+{
+public:
+    virtual ~CollectionControllerCreateCollectionResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPICollection Content;
+};
+
 /* Count collections
  *
  * Count total collections in game.
