@@ -160,6 +160,33 @@ void OpenAPIAssetApi::OnCountByGameResponse(FHttpRequestPtr HttpRequest, FHttpRe
 	Delegate.ExecuteIfBound(Response);
 }
 
+FHttpRequestPtr OpenAPIAssetApi::CreateAsset(const CreateAssetRequest& Request, const FCreateAssetDelegate& Delegate /*= FCreateAssetDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIAssetApi::OnCreateAssetResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIAssetApi::OnCreateAssetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateAssetDelegate Delegate) const
+{
+	CreateAssetResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
 FHttpRequestPtr OpenAPIAssetApi::GetAssetById(const GetAssetByIdRequest& Request, const FGetAssetByIdDelegate& Delegate /*= FGetAssetByIdDelegate()*/) const
 {
 	if (!IsValid())

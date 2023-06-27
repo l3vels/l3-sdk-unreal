@@ -214,4 +214,31 @@ void OpenAPIGameApi::OnGetGameByIdResponse(FHttpRequestPtr HttpRequest, FHttpRes
 	Delegate.ExecuteIfBound(Response);
 }
 
+FHttpRequestPtr OpenAPIGameApi::GetGameByName(const GetGameByNameRequest& Request, const FGetGameByNameDelegate& Delegate /*= FGetGameByNameDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIGameApi::OnGetGameByNameResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIGameApi::OnGetGameByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameByNameDelegate Delegate) const
+{
+	GetGameByNameResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
 }

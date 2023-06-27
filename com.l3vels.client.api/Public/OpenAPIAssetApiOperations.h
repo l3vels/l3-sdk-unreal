@@ -48,6 +48,32 @@ public:
     double Content;
 };
 
+/* Create asset 
+ *
+ * Create asset in specific collection. Example: Create asset AK-47 in collection Weapons
+*/
+class OPENAPI_API OpenAPIAssetApi::CreateAssetRequest : public Request
+{
+public:
+    virtual ~CreateAssetRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	TSharedPtr<FJsonObject> Body;
+};
+
+class OPENAPI_API OpenAPIAssetApi::CreateAssetResponse : public Response
+{
+public:
+    virtual ~CreateAssetResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPIAsset Content;
+};
+
 /* Retrieve asset by ID
  *
  * Retrieve asset by ID in specific Game. Example: Find asset AK-47 in game Call of Duty

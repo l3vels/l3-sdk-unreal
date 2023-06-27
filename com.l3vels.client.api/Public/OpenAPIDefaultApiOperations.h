@@ -22,6 +22,29 @@ namespace OpenAPI
 /* 
 
 */
+class OPENAPI_API OpenAPIDefaultApi::ChatControllerGetSqlReportRequest : public Request
+{
+public:
+    virtual ~ChatControllerGetSqlReportRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	FString Sql;
+};
+
+class OPENAPI_API OpenAPIDefaultApi::ChatControllerGetSqlReportResponse : public Response
+{
+public:
+    virtual ~ChatControllerGetSqlReportResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    
+};
+
+/* 
+
+*/
 class OPENAPI_API OpenAPIDefaultApi::ChatControllerWebhookRequest : public Request
 {
 public:

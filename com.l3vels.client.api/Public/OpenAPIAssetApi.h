@@ -40,6 +40,8 @@ public:
 
 	class CountByGameRequest;
 	class CountByGameResponse;
+	class CreateAssetRequest;
+	class CreateAssetResponse;
 	class GetAssetByIdRequest;
 	class GetAssetByIdResponse;
 	class GetAssetsRequest;
@@ -48,17 +50,20 @@ public:
 	class UpdateAssetResponse;
 	
     DECLARE_DELEGATE_OneParam(FCountByGameDelegate, const CountByGameResponse&);
+    DECLARE_DELEGATE_OneParam(FCreateAssetDelegate, const CreateAssetResponse&);
     DECLARE_DELEGATE_OneParam(FGetAssetByIdDelegate, const GetAssetByIdResponse&);
     DECLARE_DELEGATE_OneParam(FGetAssetsDelegate, const GetAssetsResponse&);
     DECLARE_DELEGATE_OneParam(FUpdateAssetDelegate, const UpdateAssetResponse&);
     
     FHttpRequestPtr CountByGame(const CountByGameRequest& Request, const FCountByGameDelegate& Delegate = FCountByGameDelegate()) const;
+    FHttpRequestPtr CreateAsset(const CreateAssetRequest& Request, const FCreateAssetDelegate& Delegate = FCreateAssetDelegate()) const;
     FHttpRequestPtr GetAssetById(const GetAssetByIdRequest& Request, const FGetAssetByIdDelegate& Delegate = FGetAssetByIdDelegate()) const;
     FHttpRequestPtr GetAssets(const GetAssetsRequest& Request, const FGetAssetsDelegate& Delegate = FGetAssetsDelegate()) const;
     FHttpRequestPtr UpdateAsset(const UpdateAssetRequest& Request, const FUpdateAssetDelegate& Delegate = FUpdateAssetDelegate()) const;
     
 private:
     void OnCountByGameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCountByGameDelegate Delegate) const;
+    void OnCreateAssetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateAssetDelegate Delegate) const;
     void OnGetAssetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetByIdDelegate Delegate) const;
     void OnGetAssetsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetsDelegate Delegate) const;
     void OnUpdateAssetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateAssetDelegate Delegate) const;

@@ -23,6 +23,42 @@
 namespace OpenAPI
 {
 
+FString OpenAPIDefaultApi::ChatControllerGetSqlReportRequest::ComputePath() const
+{
+	FString Path(TEXT("/v1/chat/report"));
+	TArray<FString> QueryParams;
+	QueryParams.Add(FString(TEXT("sql=")) + ToUrlString(Sql));
+	Path += TCHAR('?');
+	Path += FString::Join(QueryParams, TEXT("&"));
+
+	return Path;
+}
+
+void OpenAPIDefaultApi::ChatControllerGetSqlReportRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = {  };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+}
+
+void OpenAPIDefaultApi::ChatControllerGetSqlReportResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT(""));
+		break;
+	}
+}
+
+bool OpenAPIDefaultApi::ChatControllerGetSqlReportResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return true;
+}
+
 FString OpenAPIDefaultApi::ChatControllerWebhookRequest::ComputePath() const
 {
 	FString Path(TEXT("/v1/chat/webhook"));

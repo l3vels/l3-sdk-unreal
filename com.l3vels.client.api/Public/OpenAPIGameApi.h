@@ -44,19 +44,24 @@ public:
 	class GameControllerGetGamesResponse;
 	class GetGameByIdRequest;
 	class GetGameByIdResponse;
+	class GetGameByNameRequest;
+	class GetGameByNameResponse;
 	
     DECLARE_DELEGATE_OneParam(FCreateGameDelegate, const CreateGameResponse&);
     DECLARE_DELEGATE_OneParam(FGameControllerGetGamesDelegate, const GameControllerGetGamesResponse&);
     DECLARE_DELEGATE_OneParam(FGetGameByIdDelegate, const GetGameByIdResponse&);
+    DECLARE_DELEGATE_OneParam(FGetGameByNameDelegate, const GetGameByNameResponse&);
     
     FHttpRequestPtr CreateGame(const CreateGameRequest& Request, const FCreateGameDelegate& Delegate = FCreateGameDelegate()) const;
     FHttpRequestPtr GameControllerGetGames(const GameControllerGetGamesRequest& Request, const FGameControllerGetGamesDelegate& Delegate = FGameControllerGetGamesDelegate()) const;
     FHttpRequestPtr GetGameById(const GetGameByIdRequest& Request, const FGetGameByIdDelegate& Delegate = FGetGameByIdDelegate()) const;
+    FHttpRequestPtr GetGameByName(const GetGameByNameRequest& Request, const FGetGameByNameDelegate& Delegate = FGetGameByNameDelegate()) const;
     
 private:
     void OnCreateGameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateGameDelegate Delegate) const;
     void OnGameControllerGetGamesResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGameControllerGetGamesDelegate Delegate) const;
     void OnGetGameByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameByIdDelegate Delegate) const;
+    void OnGetGameByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameByNameDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;

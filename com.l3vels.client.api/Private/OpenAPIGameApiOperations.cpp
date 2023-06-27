@@ -238,4 +238,63 @@ bool OpenAPIGameApi::GetGameByIdResponse::FromJson(const TSharedPtr<FJsonValue>&
 	return TryGetJsonValue(JsonValue, Content);
 }
 
+FString OpenAPIGameApi::GetGameByNameRequest::ComputePath() const
+{
+	TMap<FString, FStringFormatArg> PathParams = { 
+	{ TEXT("name"), ToStringFormatArg(Name) } };
+
+	FString Path = FString::Format(TEXT("/v1/game/name/{name}"), PathParams);
+
+	return Path;
+}
+
+void OpenAPIGameApi::GetGameByNameRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+	// Header parameters
+	HttpRequest->SetHeader(TEXT("Authorization"), Authorization);
+
+}
+
+void OpenAPIGameApi::GetGameByNameResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("The Game has been found."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad Request, The request was unacceptable, often due to missing a required parameter."));
+		break;
+	case 401:
+		SetResponseString(TEXT("Unauthorized, No valid API key provided."));
+		break;
+	case 404:
+		SetResponseString(TEXT("Not Found, The requested resource doesn&#39;t exist."));
+		break;
+	case 409:
+		SetResponseString(TEXT("Conflict, The request conflicts with another request (perhaps due to using the same idempotent key)."));
+		break;
+	case 429:
+		SetResponseString(TEXT("Too Many Requests, Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."));
+		break;
+	case 500:
+		SetResponseString(TEXT("Server Errors, Something went wrong on L3vels&#39;s end."));
+		break;
+	case 504:
+		SetResponseString(TEXT("Gateway Timeout, Your request took too long."));
+		break;
+	}
+}
+
+bool OpenAPIGameApi::GetGameByNameResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
 }

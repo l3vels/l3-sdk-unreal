@@ -38,14 +38,19 @@ public:
 	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
 	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
+	class ChatControllerGetSqlReportRequest;
+	class ChatControllerGetSqlReportResponse;
 	class ChatControllerWebhookRequest;
 	class ChatControllerWebhookResponse;
 	
+    DECLARE_DELEGATE_OneParam(FChatControllerGetSqlReportDelegate, const ChatControllerGetSqlReportResponse&);
     DECLARE_DELEGATE_OneParam(FChatControllerWebhookDelegate, const ChatControllerWebhookResponse&);
     
+    FHttpRequestPtr ChatControllerGetSqlReport(const ChatControllerGetSqlReportRequest& Request, const FChatControllerGetSqlReportDelegate& Delegate = FChatControllerGetSqlReportDelegate()) const;
     FHttpRequestPtr ChatControllerWebhook(const ChatControllerWebhookRequest& Request, const FChatControllerWebhookDelegate& Delegate = FChatControllerWebhookDelegate()) const;
     
 private:
+    void OnChatControllerGetSqlReportResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FChatControllerGetSqlReportDelegate Delegate) const;
     void OnChatControllerWebhookResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FChatControllerWebhookDelegate Delegate) const;
     
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;

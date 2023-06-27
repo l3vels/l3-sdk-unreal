@@ -133,6 +133,33 @@ void OpenAPIDefaultApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucc
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
+FHttpRequestPtr OpenAPIDefaultApi::ChatControllerGetSqlReport(const ChatControllerGetSqlReportRequest& Request, const FChatControllerGetSqlReportDelegate& Delegate /*= FChatControllerGetSqlReportDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIDefaultApi::OnChatControllerGetSqlReportResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIDefaultApi::OnChatControllerGetSqlReportResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FChatControllerGetSqlReportDelegate Delegate) const
+{
+	ChatControllerGetSqlReportResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
 FHttpRequestPtr OpenAPIDefaultApi::ChatControllerWebhook(const ChatControllerWebhookRequest& Request, const FChatControllerWebhookDelegate& Delegate /*= FChatControllerWebhookDelegate()*/) const
 {
 	if (!IsValid())

@@ -108,4 +108,30 @@ public:
     OpenAPIGame Content;
 };
 
+/* Retrieve Game By Name
+ *
+ * Get Game by Name created on the platform.
+*/
+class OPENAPI_API OpenAPIGameApi::GetGameByNameRequest : public Request
+{
+public:
+    virtual ~GetGameByNameRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+
+	/* API key is associated with multiple games. Please include it in to use developers API. */
+	FString Authorization;
+	FString Name;
+};
+
+class OPENAPI_API OpenAPIGameApi::GetGameByNameResponse : public Response
+{
+public:
+    virtual ~GetGameByNameResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+
+    OpenAPIGame Content;
+};
+
 }
